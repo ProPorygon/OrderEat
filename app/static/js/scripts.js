@@ -1,7 +1,3 @@
-/**
- *
- * Created by kevin on 10/14/15.
- */
 $(function () {
     $('.list-group.checked-list-box .list-group-item').each(function () {
 

@@ -1,0 +1,125 @@
+{ "menu": {
+	"menuItems":[
+		{
+			"name": "House Salad",
+			"descrip": "Mixed green, shaved Parmesan cheese, soy balsamic vinaigrette, soy balsamic reduction",
+			"category": "Starters",
+			"price": "8"
+		},
+		{
+			"name": "MIGA Sashimi Garden Salad *",
+			"descrip": "Mixed green, shaved Parmesan cheese, salmon & tuna sashimi, soy balsamic vinaigrette, soy balsamic reduction",
+			"category": "Starters",
+			"price": "14"
+		},
+		{
+			"name": "Wasabi Caesar Salad",
+			"descrip": "Romaine, oven dried cherry tomato, small fried anchovies, crouton, shaved Parmesan cheese, smoked bacon, wasabi Caesar dressing",
+			"category": "Starters",
+			"price": "9"
+		},
+		{
+			"name": "Sea Scallop",
+			"descrip": "Seared scallop served medium rare, white truffle oil, lentil mix, thick seared bacon, bacon cream foam sauce",
+			"category": "Starters",
+			"price": "10"
+		},
+		{
+			"name": "Mandu",
+			"descrip": "Pan seared dumplings (pork and chicken), roasted sesame seed, pickled yellow radish salad",
+			"category": "Starters",
+			"price": "7"
+		},
+		{
+			"name": "Chashu Bun",
+			"descrip": "Braised pork, asian dipping sauce, mayo, mixed greens, sliced red onion, cucumber, white steamed bun",
+			"category": "Starters",
+			"price": "4"
+		},
+		{
+			"name": "Zen Style Ceviche",
+			"descrip": "Octopus, salmon, salmon roe, tuna, scallop, shrimp, spot prawn",
+			"category": "Starters",
+			"price": "18"
+		},	
+		{
+			"name": "Beef 'SSAM'",
+			"descrip": "Marinated beef in house K style soy sauce, samjang sauce, kimchi salsa, lettuce, rice",
+			"category": "Starters",
+			"price": "17"
+		},
+		{
+			"name": "MIGA Crunch Fries",
+			"descrip": "Parmesan cheese, served with sweet and sour ketchup",
+			"category": "Starters",
+			"price": "4"
+		},
+		{
+			"name": "Beef Korean Soup",
+			"descrip": "Clear beef broth with beef, radish, green onions",
+			"category": "Soups",
+			"price": "7"
+		},
+		{
+			"name": "Miso Ramen",
+			"descrip": "Miso paste, pork broth, scallions, braised pork",
+			"category": "Soups",
+			"price": "8"
+		},
+		{
+			"name": "Buddhism Bi Bim Bap",
+			"descrip": "Rice with assorted marinated vegetables, crisp greens, sunny side up egg, fermented sun dried chilli pepper sauce, choice of (salmon, beef, tofu)",
+			"category": "Noodle & Rice Dish",
+			"price": "18"
+		},
+		{
+			"name": "Soy Cream Chicken Pasta",
+			"descrip": "Crispy parmesan chicken cutlet, soy milk and cream, bell pepper, mushroom, crushed pepper, basil",
+			"category": "Noodle & Rice Dish",
+			"price": "16"
+		},
+		{
+			"name": "MIGA Bold Noodle Pasta",
+			"descrip": "Stir fried bold noodle, mongolian sauce, chicken, shrimp, bell pepper, onions, bonito flakes, chili pepper",
+			"category": "Noodle & Rice Dish",
+			"price": "15"
+		},
+		{
+			"name": "Angus Galbi Rib-eye Steak",
+			"descrip": "Wet-aged marinated Angus beef served medium, sweet rice wine and soy sauce, Kimchi salsa, sauteed kimchi savoy cabbage, kimchi bacon pilaf, micro greens",
+			"category": "Main",
+			"price": "34"
+		},
+		{
+			"name": "Chef's Garden Steak",
+			"descrip": "Tenderloin, potato puree, caper salsa, garlic chip, caper cream",
+			"category": "Main",
+			"price": "38"
+		},
+		{
+			"name": "Tuna Steak",
+			"descrip": "Sesame-crusted seared tuna steak served rare, smoked pork cabbage rice, shaved onion, wasabi mayo and soy reduction",
+			"category": "Main",
+			"price": "25"
+		},
+		{
+			"name": "Orange Glazed Salmon Steak",
+			"descrip": "Medium rare salmon steak, herb-roasted bacon, fingerling potato, orange mango reduction, citrus beurre blanc, oven dried cherry tomato, preserved apricots",
+			"category": "Main",
+			"price": "23"
+		},
+		{
+			"name": "White Butter Fish",
+			"descrip": "Miso-sake marinated escolar served medium rare, seaweed salads, tobiko, wasabi cream, soy balsamic reduction",
+			"category": "Main",
+			"price": "27"
+		},
+		{
+			"name": "Sea Scallops",
+			"descrip": "Seared scallops served medium rare, white truffle oil, lentil mix, potato puree, thick seared bacon, bacon cream foam sauce",
+			"category": "Main",
+			"price": "28"
+		}	
+	]
+}
+}
