@@ -6,7 +6,9 @@ from app import app
 def index():
     user = {'nickname': 'Saurabh Sinha'}  # fake user, 411 prof.
     restaurant = {'name': 'Mia Za\'s'}
+    menu = {}
     return render_template('index.html',
                            title='Home',
                            user=user,
-                           restaurant=restaurant)
+                           restaurant=restaurant,
+                           menu=menu)
