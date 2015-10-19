@@ -23,14 +23,16 @@ class DmozSpider(Spider):
             item = Website()
             item['name'] = site.xpath('p[@class="menu-title"]/text()').extract()
             item['description'] = site.xpath('p[@class="menu-desc"]/text()').extract()
-            # item['category'] = 'null'
+            item['category'] = site.xpath('//h3[@class="primary-title"]/img/@alt').extract()
             item['price'] = site.xpath('p[@class="menu-price"]/text()').extract()
             items.append(item)
 
             fp.write('\t\t{ \r \t\t\t"name": "' + item['name'][0] + '", \r')
             fp.write('\t\t\t"description": "' + item['description'][0] + '", \r') 
+            fp.write('\t\t\t"category": "' + item['category'][0] + '", \r') 
+            # fp.write(item['category'][0]) 
             fp.write('\t\t\t"price": "' + item['price'][0] + '" \r\t\t},\n') 
-
+            print item['category'][0]
         # s = str(items) + ','   
         # yield items 
         # fp.write(s + '\r'+ '\r')

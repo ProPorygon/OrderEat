@@ -5,5 +5,5 @@ class Website(Item):
 
     name = Field()
     description = Field()
-    # category = Field()
+    category = Field()
     price = Field()
