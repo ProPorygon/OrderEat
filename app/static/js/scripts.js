@@ -80,10 +80,12 @@ $(function () {
 
     $('#submit-button').on('click', function(event) {
         event.preventDefault();
-        var checkedItems = {}, counter = 0;
+        var checkedItems = {
+            "array" : []
+        };
+        console.log(checkedItems);
         $('.selected').each(function(idx, li) {
-            checkedItems[counter] = $(li).text().split("$")[0];
-            counter++;
+            checkedItems["array"].push($(li).text().split("$")[0]);
         });
         checkedItems["total"] = parseFloat($('#totalprice').text().split("$")[1]);
         console.log(checkedItems);
