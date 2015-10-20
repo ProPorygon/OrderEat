@@ -82,7 +82,7 @@ $(function () {
         event.preventDefault();
         var checkedItems = {}, counter = 0;
         $('.selected').each(function(idx, li) {
-            checkedItems[counter] = $(li).text();
+            checkedItems[counter] = $(li).text().split("$")[0];
             counter++;
         });
         console.log(checkedItems);

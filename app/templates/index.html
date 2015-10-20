@@ -17,7 +17,7 @@
                     </div>
                     <ul class="list-group checked-list-box">
                         {% for item in menu %}
-                        <li class="list-group-item">    {{ item.name }}</li>
+                        <li class="list-group-item">    {{ item.name }}<span style="float:right;">${{ item.price }}</span></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -27,6 +27,9 @@
                     </div>
                     <ul class="list-group" id="selected">
                         <li class="list-group-item">SELECTED MENU</li>
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item">Total Price : <span id="totalprice" style="float:right;">$0</span></li>
                     </ul>
                     <button type="button" class="btn btn-primary" id="submit-button">Submit</button>
 <!--
