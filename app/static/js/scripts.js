@@ -77,4 +77,9 @@ $(function () {
         });
         $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
     });
+
+    $('#submit-button').on('click', function(event) {
+        event.preventDefault();
+
+    });
 });
