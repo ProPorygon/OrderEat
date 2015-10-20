@@ -80,6 +80,11 @@ $(function () {
 
     $('#submit-button').on('click', function(event) {
         event.preventDefault();
-
+        var checkedItems = {}, counter = 0;
+        $('.selected').each(function(idx, li) {
+            checkedItems[counter] = $(li).text();
+            counter++;
+        });
+        console.log(checkedItems);
     });
 });
