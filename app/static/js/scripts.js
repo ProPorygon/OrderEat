@@ -24,9 +24,9 @@ $(function () {
             $checkbox.triggerHandler('change');
             updateDisplay();
         });
-        $checkbox.on('change', function () {
-            updateDisplay();
-        });
+//        $checkbox.on('change', function () {
+//            updateDisplay();
+//        });
 
 
         // Actions
@@ -44,8 +44,10 @@ $(function () {
             // Update the button's color
             if (isChecked) {
                 $widget.addClass(style + color + ' active');
+                addOrder($widget);
             } else {
                 $widget.removeClass(style + color + ' active');
+                rmOrder($widget);
             }
         }
 
