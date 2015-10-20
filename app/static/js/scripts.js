@@ -85,6 +85,7 @@ $(function () {
             checkedItems[counter] = $(li).text().split("$")[0];
             counter++;
         });
+        checkedItems["total"] = parseFloat($('#totalprice').text().split("$")[1]);
         console.log(checkedItems);
     });
 });
