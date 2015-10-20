@@ -83,7 +83,7 @@ $(function () {
         var checkedItems = {
             "array" : []
         };
-        console.log(checkedItems);
+        //console.log(checkedItems);
         $('.selected').each(function(idx, li) {
             checkedItems["array"].push($(li).text().split("$")[0]);
         });
