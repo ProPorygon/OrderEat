@@ -1,5 +1,6 @@
 from flask import render_template, request
-from app import app
+import datetime
+from app import app, db
 from app.models import MenuItem, Orders
 
 @app.route('/')
@@ -17,6 +18,13 @@ def index():
 @app.route('/submit_order')
 def submit_order():
     print(request.args)
-    for value in request.args.listvalues():
-        print(value)
+    print(request.args.get('total', type=int))
+    order = Orders()
+    order.time = datetime.datetime.now()
+    for item in request.args.getlist('array[]'):
+        menuItem = MenuItem.query.filter_by(name=item).first()
+        print(menuItem.name)
+        order.items.append(menuItem)
+    db.session.add(order)
+    db.session.commit()
     return index()
