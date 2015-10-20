@@ -1,6 +1,6 @@
-from flask import render_template
+from flask import render_template, request
 from app import app
-from app.models import MenuItem
+from app.models import MenuItem, Orders
 
 @app.route('/')
 @app.route('/index')
@@ -13,3 +13,10 @@ def index():
                            user=user,
                            restaurant=restaurant,
                            menu=menu)
+
+@app.route('/submit_order')
+def submit_order():
+    print(request.args)
+    for value in request.args.listvalues():
+        print(value)
+    return index()

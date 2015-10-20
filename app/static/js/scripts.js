@@ -89,5 +89,8 @@ $(function () {
         });
         checkedItems["total"] = parseFloat($('#totalprice').text().split("$")[1]);
         console.log(checkedItems);
+        $.getJSON($SCRIPT_ROOT + '/submit_order', checkedItems, function() {
+            console.log("submitted");
+        })
     });
 });

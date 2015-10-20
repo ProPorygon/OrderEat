@@ -5,6 +5,7 @@
         <link href="/static/css/style.css">
         <script src="/static/js/jquery-1.11.3.js"></script>
         <script src="/static/js/bootstrap.min.js"></script>
+        <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     </head>
     <body>
         <div class="container">
