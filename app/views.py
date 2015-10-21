@@ -7,7 +7,7 @@ from app.models import MenuItem, Orders
 @app.route('/index')
 def index():
     user = {'nickname': 'Saurabh Sinha'}  # fake user, 411 prof.
-    restaurant = {'name': 'Mia Za\'s'}
+    restaurant = {'name': 'Sakanaya'}
     menu = MenuItem.query.all()
     return render_template('index.html',
                            title='Home',
@@ -17,8 +17,6 @@ def index():
 
 @app.route('/submit_order')
 def submit_order():
-    print(request.args)
-    print(request.args.get('total', type=int))
     order = Orders()
     order.time = datetime.datetime.now()
     for item in request.args.getlist('array[]'):
@@ -28,3 +26,11 @@ def submit_order():
     db.session.add(order)
     db.session.commit()
     return index()
+
+@app.route('/view_orders')
+def view_orders():
+    restaurant = {'name': 'Sakanaya'}
+    orders = Orders.query.all()
+    return render_template('orders.html',
+                           orders=orders,
+                           restaurant=restaurant)
