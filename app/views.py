@@ -40,9 +40,9 @@ def view_orders():
 @app.route('/del_orderItem')
 def del_orderItem():
     id = request.args.get('id')
-    print(id)
-    # delItem = Orders.query.get(id)
-    # db.session.delete(delItem)
-    # db.session.commit()
+    delItem = Orders.query.get(id)
+    db.session.delete(delItem)
+    db.session.commit()
+    return view_orders()
 
 
