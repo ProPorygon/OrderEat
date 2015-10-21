@@ -45,4 +45,17 @@ def del_orderItem():
     db.session.commit()
     return view_orders()
 
+@app.route('/update_order')
+def update_order():
+    orderid = request.args.get('id')
+    currOrder = Orders.query.get(orderid)
+    for item in request.args.getlist('array[]'):
+        menuitem = MenuItem.query.filter_by(name=item).first()
+        currOrder.items.append(menuitem)
+    db.session.commit()
+    return index()
+    # get orderr
+    # add items like the other one adds items to a new order
+
+
 
