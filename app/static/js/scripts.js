@@ -93,4 +93,21 @@ $(function () {
             console.log("submitted");
         })
     });
+
+    $('#update-button').on('click', function(event) {
+        event.preventDefault();
+        var checkedItems = {
+            "array" : []
+        };
+        console.log(checkedItems);
+        $('.selected').each(function(idx, li) {
+            checkedItems["array"].push($(li).text().split("$")[0]);
+        });
+        checkedItems["total"] = parseFloat($('#totalprice').text().split("$")[1]);
+        checkedItems["id"] = $('#order-to-update').val();
+        console.log(checkedItems);
+        $.getJSON($SCRIPT_ROOT + '/update_order', checkedItems, function() {
+            console.log("submitted");
+        })
+    });
 });
