@@ -11,11 +11,16 @@ class MenuItem(db.Model):
     restaurant = db.Column(db.String(100))
     price = db.Column(db.Integer, index=True)
 
+itemsInOrders = db.Table('items_in_orders',
+                         db.Column('order_id', db.Integer, db.ForeignKey('menu_item.id')),
+                         db.Column('item_id', db.Integer, db.ForeignKey('orders.id')))
+
 class Orders(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.DateTime, index=True)
     restaurant = db.Column(db.String(100), index=True)
     rating = db.Column(db.Integer)
+    items = db.relationship('MenuItem', secondary=itemsInOrders, lazy='dynamic', backref=db.backref('orders', lazy='dynamic'))
 
 class Customers(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -5,17 +5,45 @@
         <link href="/static/css/style.css">
         <script src="/static/js/jquery-1.11.3.js"></script>
         <script src="/static/js/bootstrap.min.js"></script>
-        <script src="/static/js/scripts.js"></script>
+        <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     </head>
     <body>
-        <h1>Hello, {{ user.nickname }}! Welcome to {{ restaurant.name }}!</h1>
-        <div class="col-md-6 col-md-offset-3">
-            <ul class="list-group checked-list-box">
-                {% for item in menu %}
-                <li class="list-group-item">{{ item.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+        <div class="container">
+            <h1>Hello, {{ user.nickname }}! Welcome to {{ restaurant.name }}!</h1>
 
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="page-header">
+                        <h4>Menu Items</h4>
+                    </div>
+                    <ul class="list-group checked-list-box">
+                        {% for item in menu %}
+                        <li class="list-group-item">    {{ item.name }}<span style="float:right;">${{ item.price }}</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div class="page-header">
+                        <h4>Selected Items</h4>
+                    </div>
+                    <ul class="list-group" id="selected">
+                        <li class="list-group-item">SELECTED MENU</li>
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item">Total Price : <span id="totalprice" style="float:right;">$0</span></li>
+                    </ul>
+                    <button type="button" class="btn btn-primary" id="submit-button">Submit</button>
+<!--
+                    <ul class="list-group">
+                        <li class="list-group-item">Total Price:</li>
+                    </ul>
+-->
+                </div>
+            </div>
+
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+        <script src="/static/js/scripts.js"></script>
+        <script src="/static/js/order.js"></script>
     </body>
 </html>

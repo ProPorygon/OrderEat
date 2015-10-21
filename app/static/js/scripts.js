@@ -24,9 +24,9 @@ $(function () {
             $checkbox.triggerHandler('change');
             updateDisplay();
         });
-        $checkbox.on('change', function () {
-            updateDisplay();
-        });
+//        $checkbox.on('change', function () {
+//            updateDisplay();
+//        });
 
 
         // Actions
@@ -44,8 +44,10 @@ $(function () {
             // Update the button's color
             if (isChecked) {
                 $widget.addClass(style + color + ' active');
+                addOrder($widget);
             } else {
                 $widget.removeClass(style + color + ' active');
+                rmOrder($widget);
             }
         }
 
@@ -74,5 +76,21 @@ $(function () {
             counter++;
         });
         $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
+    });
+
+    $('#submit-button').on('click', function(event) {
+        event.preventDefault();
+        var checkedItems = {
+            "array" : []
+        };
+        console.log(checkedItems);
+        $('.selected').each(function(idx, li) {
+            checkedItems["array"].push($(li).text().split("$")[0]);
+        });
+        checkedItems["total"] = parseFloat($('#totalprice').text().split("$")[1]);
+        console.log(checkedItems);
+        $.getJSON($SCRIPT_ROOT + '/submit_order', checkedItems, function() {
+            console.log("submitted");
+        })
     });
 });
