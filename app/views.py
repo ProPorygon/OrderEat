@@ -34,3 +34,15 @@ def view_orders():
     return render_template('orders.html',
                            orders=orders,
                            restaurant=restaurant)
+
+# Orders.query.get(id) should return a order object
+# which should then get deleted upon the .delete()
+@app.route('/del_orderItem')
+def del_orderItem():
+    id = request.args.get('id')
+    print(id)
+    # delItem = Orders.query.get(id)
+    # db.session.delete(delItem)
+    # db.session.commit()
+
+
