@@ -10,7 +10,13 @@
     </head>
     <body>
         <div class="container">
+<<<<<<< HEAD
+            <div id="heading">
+            <h1 style = "text-align: center;" >Hello, {{ user.nickname }}! Welcome to {{ restaurant.name }}!</h1>
+            </div>
+=======
             <h1>Hello, {{ user.nickname }}! Welcome to {{ restaurant.name }}!</h1>
+>>>>>>> master
             <div class="row">
                 <div class="col-md-8">
                     <div class="page-header">
@@ -37,7 +43,10 @@
                     <ul class="list-group">
                         <li class="list-group-item">Total Price : <span id="totalprice" style="float:right;">$0</span></li>
                     </ul>
-                    <button type="button" class="btn btn-primary" id="submit-button">Submit</button>
+                    <a href="http://127.0.0.1:5000/orders.html"><button type="button" class="btn btn-primary" id="submit-button" onclick="orderView()">Submit</button></a>
+                    <h3>Add to order:</h3>
+                    <input type="text" class="form-control" id="order-to-update">
+                    <button type="button" class="btn btn-primary" id="update-button" onclick="orderView()">Update</button>
 <!--
                     <ul class="list-group">
                         <li class="list-group-item">Total Price:</li>
@@ -50,6 +59,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
         <script src="/static/js/scripts.js"></script>
         <script src="/static/js/order.js"></script>
+<<<<<<< HEAD
+        <script>
+            function orderView(){
+                window.location = 'http://127.0.0.1:5000/view_orders';
+            }
+
+        </script>
+=======
         <script src="/static/js/search.js"></script>
+>>>>>>> master
     </body>
 </html>
