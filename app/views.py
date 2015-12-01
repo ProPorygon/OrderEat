@@ -1,7 +1,7 @@
 from flask import render_template, request
 import datetime
 from app import app, db
-from app.models import MenuItem, Orders
+from app.models import MenuItem, Orders, Restaurant
 
 @app.route('/')
 @app.route('/index')
@@ -24,6 +24,7 @@ def submit_order():
         print(menuItem.name)
         order.items.append(menuItem)
     db.session.add(order)
+    Restaurant.orders.append(order)
     db.session.commit()
     return index()
 
@@ -57,5 +58,13 @@ def update_order():
     # get orderr
     # add items like the other one adds items to a new order
 
-
+@app.route('/dashboard')
+def dashboard():
+    restaurant = request.args.get('restaurant')
+    common_items = MenuItem.query.filter_by(restaurant=restaurant).order_by(MenuItem.frequency.desc())
+    popular_items = db.query(db.cast(MenuItem.rating_sum/MenuItem.frequency, db.Integer))
+    popular_items = popular_items.order_by(popular_items.desc())  #Should probably do something like a view or as here
+    return render_template('dashboard.html',
+                           common_items=common_items,
+                           popular_items=popular_items)
 
