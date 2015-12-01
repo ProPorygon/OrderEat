@@ -50,3 +50,7 @@ venv/
 *__pycache__/
 
 *.swp
+
+.gitignore
+
+*.pyc
