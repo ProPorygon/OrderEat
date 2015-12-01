@@ -46,6 +46,7 @@ crashlytics.properties
 crashlytics-build.properties
 
 venv/
+venv3/
 
 *__pycache__/
 

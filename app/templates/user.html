@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>User Account - OrderEat</title>
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="/static/css/style.css">
+        <link href="/static/css/search.css">
+        <script src="/static/js/jquery-1.11.3.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/user_script.js"></script>
+        <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+    </head>
+    <body>
+        <div class="container">
+            <div id="heading">
+                <h1 style = "text-align: center;" >Hello, please create a new account!</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <h4 style = "text-align: center;">What's your name?</h4>
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+                            <input type="text" id="name_field" class="form-control input-lg" placeholder="Enter Name"/>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h4 style = "text-align: center;">And email (we won't send any spam)</h4>
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+                            <input type="text" id="email_field" class="form-control input-lg" placeholder="Enter Email"/>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h4 style = "text-align: center;">Are you on a specific type of diet?</h4>
+                    <ul class="list-group checked-list-box">
+                        <li class="list-group-item">    Vegetarian</span></li>
+                        <li class="list-group-item">    Vegan</span></li>
+                        <li class="list-group-item">    Gluten Free</span></li>
+                    </ul>
+
+                    <hr>
+
+                    <h4 style="text-align: center">Are you allergic to anything?</h4>
+                    <ul class="list-group checked-list-box">
+                        <li class="list-group-item">    Eggs</span></li>
+                        <li class="list-group-item">    Milk</span></li>
+                        <li class="list-group-item">    Peanuts</span></li>
+                        <li class="list-group-item">    Tree Nuts</span></li>
+                        <li class="list-group-item">    Fish</span></li>
+                        <li class="list-group-item">    Shellfish</span></li>
+                        <li class="list-group-item">    Wheat</span></li>
+                        <li class="list-group-item">    Soy</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <button type="button" class="btn btn-primary" id="submit-button"><h4>Submit</h4></button>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    </body>
+</html>

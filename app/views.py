@@ -7,7 +7,7 @@ from app.models import MenuItem, Orders, Restaurant
 @app.route('/index')
 def index():
     user = {'nickname': 'Saurabh Sinha'}  # fake user, 411 prof.
-    restaurant = {'name': 'Sakanaya'}
+    restaurant = {'name': 'MIGA'}
     menu = MenuItem.query.all()
     return render_template('index.html',
                            title='Home',
@@ -30,7 +30,7 @@ def submit_order():
 
 @app.route('/view_orders')
 def view_orders():
-    restaurant = {'name': 'Sakanaya'}
+    restaurant = {'name': 'MIGA'}
     orders = Orders.query.all()
     return render_template('orders.html',
                            orders=orders,
@@ -68,3 +68,12 @@ def dashboard():
                            common_items=common_items,
                            popular_items=popular_items)
 
+@app.route('/<restaurant_id>')
+def restaurant(restaurant_id):
+    restaurant = Restaurant.query.get(restaurant_id)
+    return restaurant;
+#    return render_template('restaurant.html',restaurant=restaurant)
+
+@app.route('/user')
+def user():
+    return render_template('user.html')
