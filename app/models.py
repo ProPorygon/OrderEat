@@ -35,3 +35,9 @@ class Restaurant(db.Model):
     rating = db.Column(db.Integer, index=True)
     items = db.relationship('MenuItem', backref='restaurant', lazy='dynamic')
     orders = db.relationship('Orders', backref='restaurant', lazy='dynamic')
+
+class Suggestions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    current_id = db.Column(db.Integer, index=True)
+    next_id = db.Column(db.Integer, index=True)
+    weight = db.Column(db.Integer, default=0)
