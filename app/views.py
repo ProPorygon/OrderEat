@@ -86,6 +86,7 @@ def restaurant(restaurant_id):
 @app.route('/user')
 def user():
     return render_template('user.html')
+
 @app.route('/get_suggestions')
 def get_suggetions():
     limit = 4 #Change number of items returned
@@ -94,7 +95,7 @@ def get_suggetions():
     print(item_id)
     if not item_id:
         abort(422)
-    menu_suggestions = db.session.query(MenuItem, Suggestions).join(Suggestions, Suggestions.next_id==MenuItem.id).filter(Suggestions.current_id==item_id).limit(limit).all()
+    menu_suggestions = db.session.query(MenuItem, Suggestions).join(Suggestions, Suggestions.next_id==MenuItem.id).filter(Suggestions.current_id==item_id).order_by(Suggestions.weight.desc()).limit(limit).all()
     return_list = list()
     for item in menu_suggestions:
         return_list.append(item.MenuItem.name)
