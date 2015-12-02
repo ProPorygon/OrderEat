@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, jsonify, abort
 import datetime
 from app import app, db
 from app.models import MenuItem, Orders, Restaurant, Suggestions
@@ -79,5 +79,16 @@ def dashboard():
 
 @app.route('/get_suggestions')
 def get_suggetions():
+    limit = 4 #Change number of items returned
+
     item_id = request.args.get('item_id')
-    menu_suggestions = MenuItem.query.join(Suggestions, MenuItem.id==Suggestions.current_id).add_columns(MenuItem.id, MenuItem.name, Suggestions.weight).filter_by(id=item_id).order_by(Suggestions.weight.desc())
+    print(item_id)
+    if not item_id:
+        abort(422)
+    menu_suggestions = db.session.query(MenuItem, Suggestions).join(Suggestions, Suggestions.next_id==MenuItem.id).filter(Suggestions.current_id==item_id).limit(limit).all()
+    return_list = list()
+    for item in menu_suggestions:
+        return_list.append(item.MenuItem.name)
+
+    return_item = {'items': return_list}
+    return jsonify(return_item)
