@@ -21,9 +21,16 @@ def submit_order():
     order.time = datetime.datetime.now()
     for item in request.args.getlist('array[]'):
         menuItem = MenuItem.query.filter_by(name=item).first()
-        print(menuItem.name)
+        freq = menuItem.frequency
+        if freq is None:
+            menuItem.frequency = 1
+        else:
+            menuItem.frequency += 1
+        # print(menuItem.name)
+        # print(menuItem.frequency)
         order.items.append(menuItem)
     db.session.add(order)
+    # Restaurant.orders.append(order)
     db.session.commit()
     return index()
 
@@ -57,5 +64,15 @@ def update_order():
     # get orderr
     # add items like the other one adds items to a new order
 
-
+@app.route('/dashboard')
+def dashboard():
+    restaurant = request.args.get('restaurant')
+    common_items = MenuItem.query.order_by(MenuItem.frequency.desc())
+        #all()
+    #filter_by(name=restaurant).first()
+      #.filter_by(restaurant=Restaurant.query.filter_by(name=restaurant).first()).order_by(MenuItem.frequency.desc())
+    # popular_items = db.query(db.cast(MenuItem.rating_sum/MenuItem.frequency, db.Integer))
+    # popular_items = popular_items.order_by(popular_items.desc())  #Should probably do something like a view or as here
+    return render_template('dashboard.html',
+                           common_items=common_items)
 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ restaurant }}</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/style.css">
+    <script src="/static/js/jquery-1.11.3.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+</head>
+<body>
+    <div class="container">
+    <h1 style = "text-align: center"> Most Popular Items</h1>
+
+        <div class="col-md-6 col-md-offset-3">
+            <ul class="list-group">
+                {% for item in common_items %}
+                    <li class="list-group-item">Name: {{ item.name }} Amount: {{ item.frequency }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+{#        <div class="col-md-offset-6">#}
+{#            <ul class="list-group">#}
+{#                {% for item in popular_items %}#}
+{#                    <li class="list-group-item">{{ item.name }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </div>#}
+    </div>
+
+</body>
+</html>
