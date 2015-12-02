@@ -77,3 +77,7 @@ def dashboard():
                            common_items=common_items,
                            popular_items=popular_items)
 
+@app.route('/get_suggestions')
+def get_suggetions():
+    item_id = request.args.get('item_id')
+    menu_suggestions = MenuItem.query.join(Suggestions, MenuItem.id==Suggestions.current_id).add_columns(MenuItem.id, MenuItem.name, Suggestions.weight).filter_by(id=item_id).order_by(Suggestions.weight.desc())
