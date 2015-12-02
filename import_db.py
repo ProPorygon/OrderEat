@@ -11,7 +11,7 @@ for item in data["menu"]["menuItems"]:
     description = item["descrip"]
     category = item["category"]
     price = item["price"]
-    restaurant = 'MIGA'
+    restaurant = 'MIGA' #change to get restaurant from json
     menuItem = MenuItem(name=name, description=description, category=category, price=price)
     restaraunt_table = Restaurant.query.filter_by(name=restaurant).first()
     db.session.add(menuItem)
