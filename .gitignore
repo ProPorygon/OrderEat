@@ -57,3 +57,4 @@ venv3/
 *.pyc
 
 /crawler/node_modules/
+/crawler/data

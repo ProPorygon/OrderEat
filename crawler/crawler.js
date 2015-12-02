@@ -12,7 +12,9 @@ var MenuItems = [];
 var Restaurants = [];
 
 var fs = require('fs');
-var wstream = fs.createWriteStream('menu.json');
+var menustream = fs.createWriteStream('menu.json');
+var reststream = fs.createWriteStream('restaurant.json');
+
 
 var i = 1;
 
@@ -20,7 +22,7 @@ crawl(i);
 
 function crawl(i) {
 	if (i == 200) {
-		wstream.end();
+		menustream.end();
 		return;
 	}
 	var url = baseURL + i + "";
@@ -28,119 +30,64 @@ function crawl(i) {
 		if(response.statusCode !== 200) {
 			console.log(response.statusCode);
 			console.log(i);
-			console.log("Crawled through " + i - 1 + "restaurants");
-			//wstream.end();
-			//return;
-		}
-
-		var $ = cheerio.load(body);
-
-		var restname = $('title').text().split(" - ")[0];
-		var restaddr = trimText($('.address').text().trim());
-
-		var restaurant = {
-			"name": restname,
-			"address": restaddr
-		}
-
-		//Restaurants.push(restaurant);
-
-		var menuURL = url + "/menu";
-		request(menuURL, function(error, response, body) {
-			if(response.statusCode !== 200) {
-				console.log("Crawled through " + i - 1 + "restaurants");
-			}
-			var $ = cheerio.load(body);
-			var categories = $('.category-header-containers > div > h2');
-			var categoryitems = $('.text-menu > ul');
-			//console.log(categoryitems.children().contents());
-			var num_categories = categories.length;
-			for (var j = 0; j < num_categories; ++j) {
-				var category = categories.eq(j).text();
-				category = trimText(category);
-				for (var k = 0; k < categoryitems.eq(j).children().length - 1; ++k) {
-					var menuitem = categoryitems.eq(j).children().eq(k).children();
-					var menuprice = extractPrice(trimText(menuitem.eq(0).text()));
-					var menudesc = trimText(menuitem.eq(1).text());
-					var menuname = categoryitems.eq(j).children().eq(k).text();
-					menuname = trimText(menuname).split(" $" + menuprice)[0];
-					var menuobject = {
-						"name": menuname,
-						"description": menudesc,
-						"category": category,
-						//"dietaryRestriction": dietaryRestriction,
-						"price": menuprice,
-						"restaurant": restname
-					};
-					console.log(menuobject);
-					wstream.write(JSON.stringify(menuobject) + ",\n");
-					//MenuItems.push(menuobject);
-				}
-			}
 			++i;
 			crawl(i);
-		});
-	});
-}
-/*
-for (; i < 2; ) { // make all of this a function
-	var url = baseURL + i + "";
-	request(url, function(error, response, body) {
-		if(response.statusCode !== 200) {
-			console.log(response.statusCode);
-			console.log("Crawled through " + i - 1 + "restaurants");
-			wstream.end();
-			return;
-		}
-
-		var $ = cheerio.load(body);
-
-		var restname = $('title').text().split(" - ")[0];
-		var restaddr = trimText($('.address').text().trim());
-
-		var restaurant = {
-			"name": restname,
-			"address": restaddr
-		}
-
-		Restaurants.push(restaurant);
-
-		var menuURL = url + "/menu";
-		request(menuURL, function(error, response, body) {
-			if(response.statusCode !== 200) {
-				console.log("Crawled through " + i - 1 + "restaurants");
-			}
+			//menustream.end();
+			//return;
+		} else {	
 			var $ = cheerio.load(body);
-			var categories = $('.category-header-containers > div > h2');
-			var categoryitems = $('.text-menu > ul');
-			//console.log(categoryitems.children().contents());
-			var num_categories = categories.length;
-			for (var j = 0; j < num_categories; ++j) {
-				var category = categories.eq(j).text();
-				category = trimText(category);
-				for (var k = 0; k < categoryitems.eq(j).children().length - 1; ++k) {
-					var menuitem = categoryitems.eq(j).children().eq(k).children();
-					var menuprice = extractPrice(trimText(menuitem.eq(0).text()));
-					var menudesc = trimText(menuitem.eq(1).text());
-					var menuname = categoryitems.eq(j).children().eq(k).text();
-					menuname = trimText(menuname).split(" $" + menuprice)[0];
-					var menuobject = {
-						"name": menuname,
-						"description": menudesc,
-						"category": category,
-						//"dietaryRestriction": dietaryRestriction,
-						"price": menuprice
-					};
-					console.log(menuobject);
-					wstream.write(JSON.stringify(menuobject));
-					//MenuItems.push(menuobject);
-				}
+
+			var restname = $('title').text().split(" - ")[0];
+			var restaddr = trimText($('.address').text().trim());
+
+			var restaurant = {
+				"name": restname,
+				"address": restaddr
 			}
-			++i;
-		});
+
+			reststream.write(JSON.stringify(restaurant) + ",\n");
+
+			var menuURL = url + "/menu";
+			request(menuURL, function(error, response, body) {
+				if(response.statusCode !== 200) {
+					console.log("Crawled through " + i - 1 + "restaurants");
+				}
+				var $ = cheerio.load(body);
+				var categories = $('.category-header-containers > div > h2');
+				var categoryitems = $('.text-menu > ul');
+				//console.log(categoryitems.children().contents());
+				var num_categories = categories.length;
+				for (var j = 0; j < num_categories; ++j) {
+					var category = categories.eq(j).text();
+					category = trimText(category);
+					for (var k = 0; k < categoryitems.eq(j).children().length - 1; ++k) {
+						var menuitem = categoryitems.eq(j).children().eq(k).children();
+						var menuprice = extractPrice(trimText(menuitem.eq(0).text()));
+						menuprice = parseFloat(menuprice);
+						var menudesc = trimText(menuitem.eq(1).text());
+						var menuname = categoryitems.eq(j).children().eq(k).text();
+						menuname = trimText(menuname).split(" $" + menuprice)[0];
+						var restriction = getRestriction(menuname + " " + category + " " + menudesc);
+						var menuobject = {
+							"name": menuname,
+							"description": menudesc,
+							"category": category,
+							"dietaryRestriction": restriction,
+							"price": menuprice,
+							"restaurant": restname
+						};
+						console.log(menuobject);
+						menustream.write(JSON.stringify(menuobject) + ",\n");
+						//MenuItems.push(menuobject);
+					}
+				}
+				console.log(i);
+				++i;
+				crawl(i);
+			});
+		}
 	});
 }
-*/
 
 function trimText(text) {	//fix later
 	var arr = text.split(" ");
@@ -158,6 +105,36 @@ function extractPrice(text) {
 	text = text.split(" - ")[0];
 	var arr = text.split("$");
 	ret = arr[1];
+	return ret;
+}
+
+function getRestriction(text) {
+	text = text.toLowerCase();
+	var vegetarian = text.indexOf("vegetarian") > -1	// 1024
+	var vegan = text.indexOf("vegan") > -1				// 512
+	var gluten = text.indexOf("gluten") > -1			// 256
+	var eggs = text.indexOf("eggs") > -1				// 128
+	var milk = text.indexOf("milk") > -1				// 64
+	var peanuts = text.indexOf("peanut") > -1			// 32
+	var treenuts = text.indexOf("tree nut") > -1		// 16
+	var fish = text.indexOf("fish") > -1				// 8
+	var shellfish = text.indexOf("shellfish") > -1		// 4
+	var wheat = text.indexOf("wheat") > -1				// 2
+	var soy = text.indexOf("soy") > -1					// 1
+
+	var ret = 0;
+	if (vegetarian) ret += 1024;
+	if (vegan) ret += 512;
+	if (gluten) ret += 256;
+	if (eggs) ret += 128;
+	if (milk) ret += 64;
+	if (peanuts) ret += 32;
+	if (treenuts) ret += 16;
+	if (fish) ret += 8;
+	if (shellfish) ret += 4;
+	if (wheat) ret += 2;
+	if (soy) ret += 1;
+
 	return ret;
 }
 
