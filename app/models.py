@@ -7,7 +7,7 @@ class MenuItem(db.Model):
     frequency = db.Column(db.Integer, index=True)
     rating_sum = db.Column(db.Integer, index=True)
     category = db.Column(db.String(64))
-    dietaryRestriction = db.Column(db.String(200))
+    dietaryRestriction = db.Column(db.Integer)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'))
     price = db.Column(db.Integer, index=True)
 
@@ -25,7 +25,7 @@ class Orders(db.Model):
 class Customers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
-    dietary = db.Column(db.String(200))
+    dietary = db.Column(db.Integer)
     orders = db.relationship('Orders', backref='customer', lazy='dynamic')
 
 class Restaurant(db.Model):

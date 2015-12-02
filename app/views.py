@@ -77,6 +77,15 @@ def dashboard():
                            common_items=common_items,
                            popular_items=popular_items)
 
+@app.route('/<restaurant_id>')
+def restaurant(restaurant_id):
+    restaurant = Restaurant.query.get(restaurant_id)
+    return restaurant;
+#    return render_template('restaurant.html',restaurant=restaurant)
+
+@app.route('/user')
+def user():
+    return render_template('user.html')
 @app.route('/get_suggestions')
 def get_suggetions():
     limit = 4 #Change number of items returned

@@ -46,7 +46,15 @@ crashlytics.properties
 crashlytics-build.properties
 
 venv/
+venv3/
 
 *__pycache__/
 
 *.swp
+
+.gitignore
+
+*.pyc
+
+/crawler/node_modules/
+/crawler/data
