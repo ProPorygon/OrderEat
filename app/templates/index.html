@@ -6,13 +6,24 @@
         <link href="/static/css/search.css">
         <script src="/static/js/jquery-1.11.3.js"></script>
         <script src="/static/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/css/semantic.min.css">
+        <script src="/static/js/semantic.min.js"></script>
         <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     </head>
     <body>
         <div class="container">
 
             <div id="heading">
-            <h1 style = "text-align: center;" >Hello, {{ user.nickname }}! Welcome to {{ restaurant.name }}!</h1>
+            <h1 style = "text-align: center;" > Hello, {{ user.nickname }}! Welcome to
+                <select class="ui dropdown">
+                  <option value="">OrderEat</option>
+                  <option value="0">Miga</option>
+                  <option value="0">Sakanaya</option>
+                  <option value="0">Bacaro</option>
+                  <option value="0">Desthil</option>
+
+                </select>!
+            </h1>
             </div>
 
             <div class="row">
@@ -45,11 +56,6 @@
                     <h3>Add to order:</h3>
                     <input type="text" class="form-control" id="order-to-update">
                     <button type="button" class="btn btn-primary" id="update-button" onclick="orderView()">Update</button>
-<!--
-                    <ul class="list-group">
-                        <li class="list-group-item">Total Price:</li>
-                    </ul>
--->
                 </div>
             </div>
 

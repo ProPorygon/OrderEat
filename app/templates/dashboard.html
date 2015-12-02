@@ -11,20 +11,22 @@
 </head>
 <body>
     <div class="container">
-        <div class="col-md-6">
+    <h1 style = "text-align: center"> Most Popular Items</h1>
+
+        <div class="col-md-6 col-md-offset-3">
             <ul class="list-group">
                 {% for item in common_items %}
                     <li class="list-group-item">Name: {{ item.name }} Amount: {{ item.frequency }}</li>
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-md-offset-6">
-            <ul class="list-group">
-                {% for item in popular_items %}
-                    <li class="list-group-item">{{ item.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+{#        <div class="col-md-offset-6">#}
+{#            <ul class="list-group">#}
+{#                {% for item in popular_items %}#}
+{#                    <li class="list-group-item">{{ item.name }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </div>#}
     </div>
 
 </body>
