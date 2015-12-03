@@ -37,10 +37,11 @@ def submit_order():
         print(menuItem.name)
         order.items.append(menuItem)
     db.session.add(order)
-    restaurant = Restaurant.query.filter_by(name='MIGA').first()
+    restaurant = Restaurant.query.filter_by(name=restaurant_name).first()
     restaurant.orders.append(order)
     db.session.commit()
-    return index()
+    return jsonify({'success':True}), 200, {'ContentType':'application/json'}
+
 
 @app.route('/view_orders')
 def view_orders():
