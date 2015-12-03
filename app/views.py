@@ -68,9 +68,9 @@ def submit_order():
             if item != paired_item:
                 paired_item_id = MenuItem.query.filter_by(name=paired_item).first().id
                 suggestionPair = Suggestions.query.filter_by(current_id=item_id, next_id=paired_item_id).first()
-                new_weight = suggestionPair.weight + 1
-                suggestionPair.weight = new_weight
-        print(menuItem.name)
+                if suggestionPair is not None:
+                    new_weight = suggestionPair.weight + 1
+                    suggestionPair.weight = new_weight
         order.items.append(menuItem)
     db.session.add(order)
     restaurant = Restaurant.query.get(restaurant_id)
@@ -150,8 +150,9 @@ def user():
 def get_suggetions():
     limit = 4 #Change number of items returned
 
-    item_id = request.args.get('item_id')
-    print(item_id)
+    item_name = request.args.get('item_name')
+    print(item_name)
+    item_id = MenuItem.query.filter_by(name=item_name).first().id
     if not item_id:
         abort(422)
     menu_suggestions = db.session.query(MenuItem, Suggestions).join(Suggestions, Suggestions.next_id==MenuItem.id).filter(Suggestions.current_id==item_id).order_by(Suggestions.weight.desc()).limit(limit).all()

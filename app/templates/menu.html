@@ -9,6 +9,17 @@
         <link rel="stylesheet" type="text/css" href="/static/css/semantic.min.css">
         <script src="/static/js/semantic.min.js"></script>
         <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+        <script type="text/javascript">
+            $(function() {
+                $('.returnable').bind('click', function() {
+                    $.getJSON($SCRIPT_ROOT + '/get_suggestions', {
+                        item_name: $(this).text().split('$')[0].trim()
+                    }, function(data) {
+                        $('#suggestion-area').text(data.items);
+                    });
+                });
+            });
+        </script>
     </head>
     <body>
         <div class="container">
@@ -30,6 +41,8 @@
                 <div class="col-md-8">
                     <div class="page-header">
                         <h4>Menu Items</h4>
+                        <p>Suggestions:</p>
+                        <p id="suggestion-area"></p>
                         <div id="custom-search-input">
                             <div class="input-group col-md-12">
                                 <input type="text" id="searchbar" class="form-control input-lg" placeholder="Enter Keyword"/>
@@ -38,7 +51,7 @@
                     </div>
                     <ul class="list-group checked-list-box">
                         {% for item in items %}
-                        <li class="list-group-item"> {{ item.name }}<span style="float:right;">${{ item.price }}</span></li>
+                        <li class="list-group-item returnable"> {{ item.name }}<span style="float:right;">${{ item.price }}</span></li>
                         {% endfor %}
                     </ul>
                 </div>
