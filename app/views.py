@@ -68,9 +68,9 @@ def submit_order():
             if item != paired_item:
                 paired_item_id = MenuItem.query.filter_by(name=paired_item).first().id
                 suggestionPair = Suggestions.query.filter_by(current_id=item_id, next_id=paired_item_id).first()
-                new_weight = suggestionPair.weight + 1
-                suggestionPair.weight = new_weight
-        print(menuItem.name)
+                if suggestionPair is not None:
+                    new_weight = suggestionPair.weight + 1
+                    suggestionPair.weight = new_weight
         order.items.append(menuItem)
     db.session.add(order)
     restaurant = Restaurant.query.get(restaurant_id)
