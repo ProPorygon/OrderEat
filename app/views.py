@@ -150,8 +150,9 @@ def user():
 def get_suggetions():
     limit = 4 #Change number of items returned
 
-    item_id = request.args.get('item_id')
-    print(item_id)
+    item_name = request.args.get('item_name')
+    print(item_name)
+    item_id = MenuItem.query.filter_by(name=item_name).first().id
     if not item_id:
         abort(422)
     menu_suggestions = db.session.query(MenuItem, Suggestions).join(Suggestions, Suggestions.next_id==MenuItem.id).filter(Suggestions.current_id==item_id).order_by(Suggestions.weight.desc()).limit(limit).all()
