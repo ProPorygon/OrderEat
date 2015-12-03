@@ -22,6 +22,13 @@ def submit_order():
     restaurant_name = request.args.get('restaurant') #TODO add restaurant argument in submitted order
     for item in request.args.getlist('array[]'):
         menuItem = MenuItem.query.filter_by(name=item).first()
+        freq = menuItem.frequency
+        if freq is None:
+            menuItem.frequency = 1
+        else:
+            menuItem.frequency += 1
+        # print(menuItem.name)
+        # print(menuItem.frequency)
         item_id = menuItem.id
         for paired_item in request.args.getlist('array[]'):
             if item != paired_item:
@@ -70,12 +77,14 @@ def update_order():
 @app.route('/dashboard')
 def dashboard():
     restaurant = request.args.get('restaurant')
-    common_items = MenuItem.query.filter_by(restaurant=Restaurant.query.filter_by(name=restaurant).first()).order_by(MenuItem.frequency.desc())
-    popular_items = db.query(db.cast(MenuItem.rating_sum/MenuItem.frequency, db.Integer))
-    popular_items = popular_items.order_by(popular_items.desc())  #Should probably do something like a view or as here
+    common_items = MenuItem.query.order_by(MenuItem.frequency.desc())
+        #all()
+    #filter_by(name=restaurant).first()
+      #.filter_by(restaurant=Restaurant.query.filter_by(name=restaurant).first()).order_by(MenuItem.frequency.desc())
+    # popular_items = db.query(db.cast(MenuItem.rating_sum/MenuItem.frequency, db.Integer))
+    # popular_items = popular_items.order_by(popular_items.desc())  #Should probably do something like a view or as here
     return render_template('dashboard.html',
-                           common_items=common_items,
-                           popular_items=popular_items)
+                           common_items=common_items)
 
 @app.route('/<restaurant_id>')
 def restaurant(restaurant_id):

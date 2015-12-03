@@ -58,3 +58,5 @@ venv3/
 
 /crawler/node_modules/
 /crawler/data
+
+*.orig
