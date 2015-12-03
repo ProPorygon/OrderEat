@@ -19,39 +19,39 @@ def index():
 def login():
     return render_template('login.html')
 
+@app.route('/logged_in')
+def logged_in():
+    email = request.args.get('email')
+    user = Customers.query.get(email)
+    if user is None:
+        session['uemail'] = email
+        return redirect(url_for('dietary'))
+    else:
+        session['username'] = user.username
+        session['uemail'] = user.id
+        session['udietary'] = user.dietary
+        return redirect(url_for('index'))
+
 @app.route('/logout')
 def logout():
     session['username'] = None
-    session['uid'] = None
+    session['uemail'] = None
     session['dietary'] = None
     return index()
 
-@app.route('/logged_in')
-def logged_in():
-    id = request.args.get('id')
-    session['uid'] = id
-    session['username'] = request.args.get('name')
-    session['udietary'] = request.args.get('dietary')
-    user = Customers.query.get(id)
-    if user is None:
-        return redirect(url_for('dietary'))
-    else:
-        return redirect(url_for('restaurants'))
-
 @app.route('/dietary')
 def dietary():
-    id = session['uid']
-    username = session['username']
-    udietary = session['udietary']
-    return render_template('user.html', id=id, name=username, dietary=udietary)
+    return render_template('user.html')
 
 @app.route('/submit_dietary')
 def submit_dietary():
-    return restaurants()
-
-@app.route('/restaurants')
-def restaurants():
-    return render_template('restaurants.html', user=request.args.get('user'))
+    user = Customers()
+    user.name = request.args.get('name')
+    user.dietary = request.args.get('dietary')
+    user.email = session['uemail']
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('index'))
 
 @app.route('/submit_order')
 def submit_order():
