@@ -1,7 +1,7 @@
 from flask import render_template, request, jsonify, abort
 import datetime
 from app import app, db
-from app.models import MenuItem, Orders, Restaurant, Suggestions
+from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
 
 @app.route('/')
 @app.route('/index')
@@ -14,6 +14,31 @@ def index():
                            user=user,
                            restaurant=restaurant,
                            menu=menu)
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/logged_in')
+def logged_in():
+    id = request.args.get('id')
+    user = Customers.query.get(id)
+    if user is []:
+        return dietary(user)
+    else:
+        return restaurants(user)
+
+@app.route('/dietary')
+def dietary(user):
+    return render_template('user.html', user=user)
+
+@app.route('/submit_dietary')
+def submit_dietary():
+    return restaurants(user)
+
+@app.route('/restaurants')
+def restaurants(user):
+    return render_template('restaurants.html', user=user)
 
 @app.route('/submit_order')
 def submit_order():
