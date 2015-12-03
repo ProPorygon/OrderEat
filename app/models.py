@@ -23,11 +23,10 @@ class Orders(db.Model):
     customer_email = db.Column(db.String(64), db.ForeignKey('customers.email'))
 
 class Customers(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), primary_key=True)
     name = db.Column(db.String(64), index=True)
     dietary = db.Column(db.Integer)
     orders = db.relationship('Orders', backref='customer', lazy='dynamic')
-    email = db.Column(db.String(64), unique=True)
 
 class Restaurant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
