@@ -27,10 +27,10 @@
         <script src="/static/js/orders_view.js"></script>
     <script>
         function refresh(){
-             window.location = 'http://127.0.0.1:5000/order/{{ order.id }}';
+             window.location = $SCRIPT_ROOT + '/order/{{ order.id }}';
         }
         function back(){
-             window.location = 'http://127.0.0.1:5000/';
+             window.history.back();
         }    </script>
 </body>
 </html>
