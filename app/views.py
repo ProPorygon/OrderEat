@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, abort
+from flask import render_template, request, jsonify, abort, redirect, url_for
 import datetime
 from app import app, db
 from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
@@ -23,22 +23,22 @@ def login():
 def logged_in():
     id = request.args.get('id')
     user = Customers.query.get(id)
-    if user is []:
-        return dietary(user)
+    if user is None:
+        return redirect(url_for('dietary', id=id, name=request.args.get('name'), dietary=0))
     else:
-        return restaurants(user)
+        return redirect(url_for('restaurants', id=id))
 
 @app.route('/dietary')
-def dietary(user):
-    return render_template('user.html', user=user)
+def dietary():
+    return render_template('user.html', id=request.args.get('id'), name=request.args.get('name'), dietary=request.args.get('dietary'))
 
 @app.route('/submit_dietary')
 def submit_dietary():
     return restaurants(user)
 
 @app.route('/restaurants')
-def restaurants(user):
-    return render_template('restaurants.html', user=user)
+def restaurants():
+    return render_template('restaurants.html', user=request.args.get('user'))
 
 @app.route('/submit_order')
 def submit_order():
