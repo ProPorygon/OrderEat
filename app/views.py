@@ -124,11 +124,27 @@ def dashboard():
     return render_template('dashboard.html',
                            common_items=common_items)
 
-@app.route('/<restaurant_id>')
-def restaurant(restaurant_id):
-    restaurant = Restaurant.query.get(restaurant_id)
-    return restaurant;
-#    return render_template('restaurant.html',restaurant=restaurant)
+
+@app.route('/menu')
+def menu():
+    user = {'nickname': 'Saurabh Sinha'}  # fake user, 411 prof.
+    restaurant = {'name': 'MIGA'}
+    menu = MenuItem.query.all()
+    return render_template('menu.html',
+                           title='Home',
+                           user=user,
+                           restaurant=restaurant,
+                           menu=menu)
+
+@app.route('/restaurant/<restaurant_id>')
+def restaurant():
+    restaurant_id = session['restaurant_id']
+    rest = Restaurant.query.get(restaurant_id)
+    itemlist = rest.items
+    return render_template('menu.html',
+                           restaurant=rest,
+                           rid=restaurant_id,
+                           items=itemlist)
 
 @app.route('/user')
 def user():
@@ -150,4 +166,10 @@ def get_suggetions():
     return_item = {'items': return_list}
     return jsonify(return_item)
 
+@app.route('/order/<order_id>')
+def user_order(order_id):
+    print(order_id)
+    order = Orders.query.get(order_id)
+    return render_template('view_order.html',
+                           order=order)
 app.secret_key = "wM'P\xf2H\x99Vc\x1d-\xc0\x1a\x9c!\xcb\xc94\x8f\xac\x01*\x8c\x89"
