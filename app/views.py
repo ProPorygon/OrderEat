@@ -76,7 +76,9 @@ def submit_order():
     restaurant = Restaurant.query.get(restaurant_id)
     restaurant.orders.append(order)
     db.session.commit()
-    return jsonify({'success':True}), 200, {'ContentType':'application/json'}
+    order_id = Orders.query.filter_by(time=order.time).first().id
+    print(order_id)
+    return jsonify({'order_id':order_id, 'success':True}), 200, {'ContentType':'application/json'}
 
 
 @app.route('/view_orders')

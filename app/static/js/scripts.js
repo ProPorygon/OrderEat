@@ -88,8 +88,10 @@ $(function () {
         });
         checkedItems["total"] = parseFloat($('#totalprice').text().split("$")[1]);
         console.log(checkedItems);
-        $.getJSON($SCRIPT_ROOT + '/submit_order', checkedItems, function() {
-            console.log("submitted");
+        $.getJSON($SCRIPT_ROOT + '/submit_order', checkedItems, function(data) {
+            order_id = data.order_id;
+            console.log(order_id);
+            orderView();
         })
     });
 
@@ -105,8 +107,8 @@ $(function () {
         checkedItems["total"] = parseFloat($('#totalprice').text().split("$")[1]);
         checkedItems["id"] = $('#order-to-update').val();
         console.log(checkedItems);
-        $.getJSON($SCRIPT_ROOT + '/update_order', checkedItems, function() {
-            console.log("submitted");
+        $.getJSON($SCRIPT_ROOT + '/update_order', checkedItems, function(data) {
+
         })
     });
 });

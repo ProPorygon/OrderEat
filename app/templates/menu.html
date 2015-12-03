@@ -10,6 +10,7 @@
         <script src="/static/js/semantic.min.js"></script>
         <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
         <script type="text/javascript">
+            var order_id;
             $(function() {
                 $('.returnable').bind('click', function() {
                     $.getJSON($SCRIPT_ROOT + '/get_suggestions', {
@@ -65,7 +66,7 @@
                     <ul class="list-group">
                         <li class="list-group-item">Total Price : <span id="totalprice" style="float:right;">$0</span></li>
                     </ul>
-                    <a href="http://127.0.0.1:5000/orders.html"><button type="button" class="btn btn-primary" id="submit-button" onclick="orderView()">Submit</button></a>
+                    <a href="orders.html"><button type="button" class="btn btn-primary" id="submit-button" onclick="">Submit</button></a>
                     <h3>Add to order:</h3>
                     <input type="text" class="form-control" id="order-to-update">
                     <button type="button" class="btn btn-primary" id="update-button" onclick="orderView()">Update</button>
@@ -80,7 +81,7 @@
 
         <script>
             function orderView(){
-                window.location = $SCRIPT_ROOT + '/view_orders';
+                window.location = $SCRIPT_ROOT + '/order/' + order_id;
             }
 
         </script>
