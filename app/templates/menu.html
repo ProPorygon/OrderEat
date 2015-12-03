@@ -16,7 +16,11 @@
                     $.getJSON($SCRIPT_ROOT + '/get_suggestions', {
                         item_name: $(this).text().split('$')[0].trim()
                     }, function(data) {
-                        $('#suggestion-area').text(data.items);
+                        var txt = data.items[0];
+                        for (var i = 1; i < data.items.length; ++i) {
+                            txt += ", " + data.items[i];
+                        }
+                        $('#suggestion-area').text(txt);
                     });
                 });
             });
@@ -43,16 +47,27 @@
                     <div class="page-header">
                         <h4>Menu Items</h4>
                         <p>Suggestions:</p>
-                        <p id="suggestion-area"></p>
+                        <li class="list-group-item">Suggestions: <span id="suggestion-area"></span></li>
                         <div id="custom-search-input">
                             <div class="input-group col-md-12">
-                                <input type="text" id="searchbar" class="form-control input-lg" placeholder="Enter Keyword"/>
+                                <input type="text" id="searchbar" class="form-control input-lg" placeholder="Enter Keyword or Search for Suggestions"/>
                             </div>
                         </div>
                     </div>
                     <ul class="list-group checked-list-box">
-                        {% for item in items %}
-                        <li class="list-group-item returnable"> {{ item.name }}<span style="float:right;">${{ item.price }}</span></li>
+                        {% for category in categories %}
+                            <h2>{{ category }}</h2>
+                            {% for item in items %}
+                                {% if item.category == category %}
+                                    <li class="list-group-item returnable"> {{ item.name }}<span style="float:right;">$
+                                        {% if item.price == None %}
+                                        0 (Not Shown)
+                                        {% else %}
+                                        {{ item.price }}
+                                        {% endif %}
+                                    </span></li>
+                                {% endif %}
+                            {% endfor %}
                         {% endfor %}
                     </ul>
                 </div>

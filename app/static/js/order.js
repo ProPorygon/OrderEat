@@ -4,6 +4,7 @@ function addOrder(variable) {
     var item = variable[0].innerText.trim();
     var price = parseFloat(item.split("$")[1]);
     totalprice += price;
+    totalprice = totalprice.toFixed(2);
     item = item.split("$")[0];
     var replaced = item.split(' ').join('_');
     replaced = replaced.split("'").join('');
@@ -35,6 +36,7 @@ function rmOrder(variable) {
     var item = variable[0].innerText.trim();
     var price = parseFloat(item.split("$")[1]);
     totalprice -= price;
+    totalprice = totalprice.toFixed(2);
     if (totalprice < 0) {totalprice = 0;}
     item = item.split("$")[0];
     var replaced = item.split(' ').join('_');

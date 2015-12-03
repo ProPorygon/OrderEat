@@ -1,7 +1,13 @@
 from flask import render_template, request, jsonify, abort, redirect, url_for, session
+from flask.ext.session import Session
 import datetime
 from app import app, db
 from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
+from sqlalchemy import or_, and_
+
+app.secret_key = "wM'P\xf2H\x99Vc\x1d-\xc0\x1a\x9c!\xcb\xc94\x8f\xac\x01*\x8c\x89"
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
 
 @app.route('/')
 @app.route('/index')
@@ -22,6 +28,8 @@ def logged_in():
     email = request.args.get('email')
     user = Customers.query.get(email)
     if user is None:
+        if email is not None:
+            session['uemail'] = email
         session['uemail'] = email
         return redirect(url_for('dietary'))
     else:
@@ -142,13 +150,43 @@ def menu():
 
 @app.route('/restaurant/<restaurant_id>')
 def restaurant(restaurant_id):
-    session['restaurant_id'] = restaurant_id
-    rest = Restaurant.query.get(restaurant_id)
-    itemlist = rest.items
-    return render_template('menu.html',
-                           restaurant=rest,
-                           rid=restaurant_id,
-                           items=itemlist)
+    try:
+        email = session['uemail']
+    except:                         #using without accont
+        session['restaurant_id'] = restaurant_id
+        rest = Restaurant.query.get(restaurant_id)
+        itemlist = rest.items.order_by(MenuItem.category.desc())
+        category = {}
+        for item in itemlist:
+            category[item.category] = 1
+        return render_template('menu.html',
+                               restaurant=rest,
+                               rid=restaurant_id,
+                               items=itemlist,
+                               categories=category)
+    else:                           #if account
+        session['restaurant_id'] = restaurant_id
+        rest = Restaurant.query.get(restaurant_id)
+        cust = Customers.query.get(email)
+        newlist = db.session.query(MenuItem.name, MenuItem.price, MenuItem.description, MenuItem.category, MenuItem.frequency, MenuItem.rating_sum) \
+                    .filter(MenuItem.restaurant_id == restaurant_id) \
+                    .filter( \
+                                or_( \
+                                    ~and_((MenuItem.dietaryRestriction % 256 >= 128), (cust.dietary % 256 >= 128)), \
+                                    ~and_((MenuItem.dietaryRestriction % 128 >= 64), (cust.dietary % 128 >= 64)), \
+                                    ~and_((MenuItem.dietaryRestriction % 64 >= 32), (cust.dietary % 64 >= 32)), \
+                                    ~and_((MenuItem.dietaryRestriction % 32 >= 16), (cust.dietary % 32 >= 16)), \
+                                    ~and_((MenuItem.dietaryRestriction % 16 >= 8), (cust.dietary % 16 >= 8)), \
+                                    ~and_((MenuItem.dietaryRestriction % 8 >= 4), (cust.dietary % 8 >= 4)), \
+                                    ~and_((MenuItem.dietaryRestriction % 4 >= 2), (cust.dietary % 4 >= 2)), \
+                                    ~and_(MenuItem.dietaryRestriction % 2 == 1, cust.dietary % 2 == 1)) \
+                            ) \
+                    .order_by(MenuItem.category.desc())
+        return render_template('menu.html',
+                               restaurant=rest,
+                               rid=restaurant_id,
+                               items=newlist)
+
 
 @app.route('/user')
 def user():
