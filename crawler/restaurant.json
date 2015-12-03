@@ -1,3 +1,5 @@
+{ "restaurant": {
+	"restaurants":[
 {"name":"Destihl","address":"301 N. Neil Street Champaign, IL 61820"},
 {"name":"Escobar's","address":"6 E. Columbia Avenue Champaign, IL 61820"},
 {"name":"Farren's","address":"308 N. Randolph Street Champaign, IL 61820"},
@@ -107,4 +109,7 @@
 {"name":"301 Mongolia","address":"301 N Neil St Champaign, IL 61820"},
 {"name":"Miga","address":"301 N Neil Street Champaign, IL 61820"},
 {"name":"The Dancing Dog","address":"126 West Main Street Urbana, IL 61802"},
-{"name":"Caffe Bene on Green","address":"524 East Green Street Champaign, IL 61820"},
+{"name":"Caffe Bene on Green","address":"524 East Green Street Champaign, IL 61820"}
+]
+}
+}
