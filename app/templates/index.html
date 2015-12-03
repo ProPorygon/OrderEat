@@ -16,7 +16,7 @@
                 <h2>Please select a Restaurant:</h2>
 
                 <div class="col-md-6 col-md-offset-3">
-                    <select onChange="window.location.href=this.value"  class="ui dropdown">
+                    <select onChange="window.location.href='restaurant/' + this.value"  class="ui dropdown">
                         {% for item in rlist %}
                             <option value={{ item.id }} class="list-group-item">{{ item.name }}</option>
                         {% endfor %}
@@ -34,7 +34,6 @@
             function orderView(){
                 window.location = 'http://127.0.0.1:5000/view_orders';
             }
-
         </script>
 
     </body>
