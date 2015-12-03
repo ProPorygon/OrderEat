@@ -27,6 +27,7 @@ class Customers(db.Model):
     name = db.Column(db.String(64), index=True)
     dietary = db.Column(db.Integer)
     orders = db.relationship('Orders', backref='customer', lazy='dynamic')
+    email = db.Column(db.String(100))
 
 class Restaurant(db.Model):
     id = db.Column(db.Integer, primary_key=True)

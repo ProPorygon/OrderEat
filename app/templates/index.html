@@ -22,7 +22,7 @@
                     <input type="text" id="searchbar" class="form-control input-lg" placeholder="Enter Keyword"/>
                 </div>
             </div>
-            <select onChange="window.location.href=this.value"  class="ui dropdown">
+            <select onChange="window.location.href='restaurant/' + this.value"  class="ui dropdown">
                 {% for item in rlist %}
                     <option value={{ item.id }} class="list-group-item">{{ item.name }}</option>
                 {% endfor %}
