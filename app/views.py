@@ -25,8 +25,6 @@ def submit_order():
             menuItem.frequency = 1
         else:
             menuItem.frequency += 1
-        # print(menuItem.name)
-        # print(menuItem.frequency)
         item_id = menuItem.id
         for paired_item in request.args.getlist('array[]'):
             if item != paired_item:
