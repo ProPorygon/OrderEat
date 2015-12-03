@@ -2,17 +2,25 @@
  * Created by Han on 12/2/15.
  */
 $(function () {
-    $('#login-button').on('click', function(event) {
-        event.preventDefault();
-        var email = {
-            "email" : $('#email_field').val()
+    var email;
+    $('#email_field').on('change', function() {
+        var temp = $('#email_field').val()
+        if (temp !== undefined) {
+            email = temp;
         }
-        $.getJSON($SCRIPT_ROOT + '/logged_in', email, function() {
+        console.log(email)
+    });
+    $('#login-button').bind('click', function(event) {
+        event.preventDefault();
+        var data = {
+            email : email
+        };
+        $.getJSON($SCRIPT_ROOT + '/logged_in', data, function() {
             console.log("submitted");
         })
     });
 
-    $('#submit_dietary').on('click', function(event) {
+    $('#submit_dietary').bind('click', function(event) {
         event.preventDefault();
         var dietary = 0;
         if ($('#vegetarian').hasClass("active")) {dietary += 1024;}
@@ -27,8 +35,8 @@ $(function () {
         if ($('#wheat').hasClass("active")) {dietary += 2;}
         if ($('#soy').hasClass("active")) {dietary += 1;}
         var data = {
-            "name" : $('#name_field').val(),
-            "dietary" : dietary
+            name : $('#name_field').val(),
+            dietary : dietary
         }
         $.getJSON($SCRIPT_ROOT + '/submit_dietary', data, function() {
             console.log("submitted");

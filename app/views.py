@@ -1,7 +1,13 @@
 from flask import render_template, request, jsonify, abort, redirect, url_for, session
+from flask.ext.session import Session
 import datetime
 from app import app, db
 from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
+from sqlalchemy import or_, and_
+
+app.secret_key = "wM'P\xf2H\x99Vc\x1d-\xc0\x1a\x9c!\xcb\xc94\x8f\xac\x01*\x8c\x89"
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
 
 @app.route('/')
 @app.route('/index')
@@ -20,22 +26,17 @@ def login():
 @app.route('/logged_in')
 def logged_in():
     email = request.args.get('email')
-    user = Customers.query.get(email)
+    user = Customers.query.filter_by(email=email).first()
     if user is None:
-        session['uemail'] = email
+        if email is not None:
+            session['uemail'] = email
+        print(session['uemail'])
         return redirect(url_for('dietary'))
     else:
         session['username'] = user.username
         session['uemail'] = user.id
         session['udietary'] = user.dietary
         return redirect(url_for('index'))
-
-@app.route('/logout')
-def logout():
-    session['username'] = None
-    session['uemail'] = None
-    session['dietary'] = None
-    return index()
 
 @app.route('/dietary')
 def dietary():
@@ -134,13 +135,64 @@ def menu():
 
 @app.route('/restaurant/<restaurant_id>')
 def restaurant(restaurant_id):
-    session['restaurant_id'] = restaurant_id
-    rest = Restaurant.query.get(restaurant_id)
-    itemlist = rest.items
-    return render_template('menu.html',
-                           restaurant=rest,
-                           rid=restaurant_id,
-                           items=itemlist)
+    try:
+        email = session['uemail']
+    except:                         #using without accont
+        session['restaurant_id'] = restaurant_id
+        rest = Restaurant.query.get(restaurant_id)
+        itemlist = rest.items
+        return render_template('menu.html',
+                               restaurant=rest,
+                               rid=restaurant_id,
+                               items=itemlist)
+    else:                           #if account
+        cust = Customers.query.get(email)
+        newlist = db.session.query(MenuItem.name, MenuItem.price) \
+                    .filter(MenuItem.restaurant_id == restaurant_id) \
+                    .filter( \
+                                or_( \
+                                    ~and_((MenuItem.dietaryRestriction % 256 >= 128), (cust.dietary % 256 >= 128)), \
+                                    ~and_((MenuItem.dietaryRestriction % 128 >= 64), (cust.dietary % 128 >= 64)), \
+                                    ~and_((MenuItem.dietaryRestriction % 64 >= 32), (cust.dietary % 64 >= 32)), \
+                                    ~and_((MenuItem.dietaryRestriction % 32 >= 16), (cust.dietary % 32 >= 16)), \
+                                    ~and_((MenuItem.dietaryRestriction % 16 >= 8), (cust.dietary % 16 >= 8)), \
+                                    ~and_((MenuItem.dietaryRestriction % 8 >= 4), (cust.dietary % 8 >= 4)), \
+                                    ~and_((MenuItem.dietaryRestriction % 4 >= 2), (cust.dietary % 4 >= 2)), \
+                                    ~and_(MenuItem.dietaryRestriction % 2 == 1, cust.dietary % 2 == 1)) \
+                            ) \
+
+                    # .filter( \
+                    #             or_( \
+                    #                 and_(cust.dietary / 1024 == 0, (MenuItem.dietaryRestriction / 1024 == cust.dietary / 1024)), \
+                    #                 and_(cust.dietary % 1024 < 512, (MenuItem.dietaryRestriction % 1024 >= 512) == (cust.dietary % 1024 >= 512)), \
+                    #                 and_(cust.dietary % 512 < 256, (MenuItem.dietaryRestriction % 512 >= 256) == (cust.dietary % 512 >= 256)) \
+                    #                 ) \
+                    #         ) \
+
+                    # .filter(MenuItem.dietaryRestriction / 512 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 256 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 128 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 64 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 32 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 16 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 8 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 4 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 2 == 1) \
+                    # .filter(MenuItem.dietaryRestriction / 1 == 1) \
+
+                    #.filter(MenuItem.dietaryRestriction.op('&')(1024) == 1)
+#                    .filter(MenuItem.dietaryRestriction.op('&')(1024) == 1024) \
+#                    .filter(MenuItem.dietaryRestriction.op('&')(2) != Customers.dietaryRestriction.op('&')(2)) \
+ #                   .filter(Restaurant.dietaryRestriction.op('&')(4) != Customers.dietaryRestriction.op('&')(4)) \
+  #                  .filter(Restaurant.dietaryRestriction.op('&')(8) != Customers.dietaryRestriction.op('&')(8)) \
+   #                 .filter(Restaurant.dietaryRestriction.op('&')(16) != Customers.dietaryRestriction.op('&')(16)) \
+    #                .filter(Restaurant.dietaryRestriction.op('&')(32) != Customers.dietaryRestriction.op('&')(32)) \
+        for menu in newlist:
+            print(menu.name)
+        return render_template('menu.html',
+                               restaurant=rest,
+                               rid=restaurant_id,
+                               items=newlist)
 
 @app.route('/user')
 def user():
@@ -169,5 +221,3 @@ def user_order(order_id):
     order = Orders.query.get(order_id)
     return render_template('view_order.html',
                            order=order)
-
-app.secret_key = "wM'P\xf2H\x99Vc\x1d-\xc0\x1a\x9c!\xcb\xc94\x8f\xac\x01*\x8c\x89"
