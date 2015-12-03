@@ -1,7 +1,7 @@
 from flask import render_template, request, jsonify, abort
 import datetime
 from app import app, db
-from app.models import MenuItem, Orders, Restaurant, Suggestions
+from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
 
 @app.route('/')
 @app.route('/index')
@@ -111,3 +111,10 @@ def get_suggetions():
 
     return_item = {'items': return_list}
     return jsonify(return_item)
+
+@app.route('/order/<order_id>')
+def user_order(order_id):
+    print(order_id)
+    order = Orders.query.get(order_id)
+    return render_template('view_order.html',
+                           order=order)
