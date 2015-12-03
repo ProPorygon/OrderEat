@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, abort, session
+from flask import render_template, request, jsonify, abort, redirect, url_for, session
 import datetime
 from app import app, db
 from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
@@ -12,6 +12,44 @@ def index():
                            title='Home',
                            rlist=rlist,
                            menu=menu)
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/logged_in')
+def logged_in():
+    email = request.args.get('email')
+    user = Customers.query.get(email)
+    if user is None:
+        session['uemail'] = email
+        return redirect(url_for('dietary'))
+    else:
+        session['username'] = user.username
+        session['uemail'] = user.id
+        session['udietary'] = user.dietary
+        return redirect(url_for('index'))
+
+@app.route('/logout')
+def logout():
+    session['username'] = None
+    session['uemail'] = None
+    session['dietary'] = None
+    return index()
+
+@app.route('/dietary')
+def dietary():
+    return render_template('user.html')
+
+@app.route('/submit_dietary')
+def submit_dietary():
+    user = Customers()
+    user.name = request.args.get('name')
+    user.dietary = request.args.get('dietary')
+    user.email = session['uemail']
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('index'))
 
 @app.route('/submit_order')
 def submit_order():

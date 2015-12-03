@@ -20,10 +20,10 @@ class Orders(db.Model):
     time = db.Column(db.DateTime, index=True)
     items = db.relationship('MenuItem', secondary=itemsInOrders, lazy='dynamic', backref=db.backref('orders', lazy='dynamic'))
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'))
-    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
+    customer_email = db.Column(db.String(64), db.ForeignKey('customers.email'))
 
 class Customers(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), primary_key=True)
     name = db.Column(db.String(64), index=True)
     dietary = db.Column(db.Integer)
     orders = db.relationship('Orders', backref='customer', lazy='dynamic')

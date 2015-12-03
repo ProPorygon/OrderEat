@@ -7,6 +7,7 @@
         <script src="/static/js/jquery-1.11.3.js"></script>
         <script src="/static/js/bootstrap.min.js"></script>
         <script src="/static/js/user_script.js"></script>
+        <script src="/static/js/userauth.js"></script>
         <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     </head>
     <body>
@@ -25,50 +26,34 @@
 
                     <hr>
 
-                    <h4 style = "text-align: center;">And email (we won't send any spam)</h4>
-                    <div id="custom-search-input">
-                        <div class="input-group col-md-12">
-                            <input type="text" id="email_field" class="form-control input-lg" placeholder="Enter Email"/>
-                        </div>
-                    </div>
-
-                    <hr>
-
                     <h4 style = "text-align: center;">Are you on a specific type of diet?</h4>
                     <ul class="list-group checked-list-box">
-                        <li class="list-group-item">    Vegetarian</span></li>
-                        <li class="list-group-item">    Vegan</span></li>
-                        <li class="list-group-item">    Gluten Free</span></li>
+                        <li class="list-group-item" id="vegetarian">    Vegetarian</span></li>
+                        <li class="list-group-item" id="vegan">    Vegan</span></li>
+                        <li class="list-group-item" id="gluten_free">    Gluten Free</span></li>
                     </ul>
 
                     <hr>
 
                     <h4 style="text-align: center">Are you allergic to anything?</h4>
                     <ul class="list-group checked-list-box">
-                        <li class="list-group-item">    Eggs</span></li>
-                        <li class="list-group-item">    Milk</span></li>
-                        <li class="list-group-item">    Peanuts</span></li>
-                        <li class="list-group-item">    Tree Nuts</span></li>
-                        <li class="list-group-item">    Fish</span></li>
-                        <li class="list-group-item">    Shellfish</span></li>
-                        <li class="list-group-item">    Wheat</span></li>
-                        <li class="list-group-item">    Soy</span></li>
+                        <li class="list-group-item" id="eggs">    Eggs</span></li>
+                        <li class="list-group-item" id="milk">    Milk</span></li>
+                        <li class="list-group-item" id="peanuts">    Peanuts</span></li>
+                        <li class="list-group-item" id="treenuts">    Tree Nuts</span></li>
+                        <li class="list-group-item" id="fish">    Fish</span></li>
+                        <li class="list-group-item" id="shellfish">    Shellfish</span></li>
+                        <li class="list-group-item" id="wheat">    Wheat</span></li>
+                        <li class="list-group-item" id="soy">    Soy</span></li>
                     </ul>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 text-center">
-                    <button type="button" class="btn btn-primary" id="submit-button" onclick="routeHome()" ><h4>Submit</h4></button>
+                    <button type="button" class="btn btn-primary" id="submit_dietary" onclick="window.location = 'http://127.0.0.1:5000/index'"><h4>Submit</h4></button>
                 </div>
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-           <script>
-            function routeHome(){
-                window.location = 'http://127.0.0.1:5000';
-            }
-
-        </script>
-
     </body>
 </html>
