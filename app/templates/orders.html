@@ -29,10 +29,10 @@
         <script src="/static/js/orders_view.js"></script>
     <script>
         function refresh(){
-             window.location = 'http://127.0.0.1:5000/view_orders';
+             window.location = $SCRIPT_ROOT + '/view_orders';
         }
         function back(){
-             window.location = 'http://127.0.0.1:5000/';
+             window.history.back();
         }    </script>
     </body>
 </html>
