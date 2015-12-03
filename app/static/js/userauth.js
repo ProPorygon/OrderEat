@@ -13,7 +13,7 @@ $(function () {
     $('#login-button').bind('click', function(event) {
         event.preventDefault();
         var data = {
-            email : $('#email_field').val()
+            email : email
         }
         $.getJSON($SCRIPT_ROOT + '/logged_in', data, function() {
             console.log("submitted");
