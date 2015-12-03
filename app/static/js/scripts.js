@@ -105,10 +105,11 @@ $(function () {
             checkedItems["array"].push($(li).text().split("$")[0]);
         });
         checkedItems["total"] = parseFloat($('#totalprice').text().split("$")[1]);
-        checkedItems["id"] = $('#order-to-update').val();
         console.log(checkedItems);
         $.getJSON($SCRIPT_ROOT + '/update_order', checkedItems, function(data) {
-
+            order_id = data.order_id;
+            console.log(order_id);
+            orderView();
         })
     });
 });

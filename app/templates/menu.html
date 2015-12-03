@@ -81,10 +81,14 @@
                     <ul class="list-group">
                         <li class="list-group-item">Total Price : <span id="totalprice" style="float:right;">$0</span></li>
                     </ul>
+                    {% if not update %}
                     <a href="orders.html"><button type="button" class="btn btn-primary" id="submit-button" onclick="">Submit</button></a>
-                    <h3>Add to order:</h3>
-                    <input type="text" class="form-control" id="order-to-update">
-                    <button type="button" class="btn btn-primary" id="update-button" onclick="orderView()">Update</button>
+                    {% endif %}
+                    {% if update %}
+                        <h3>Add to order:</h3>
+                        <input type="text" class="form-control" id="order-to-update">
+                        <button type="button" class="btn btn-primary" id="update-button" onclick="orderView()">Update</button>
+                    {% endif %}
                 </div>
             </div>
 

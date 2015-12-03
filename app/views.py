@@ -163,7 +163,8 @@ def restaurant(restaurant_id):
                                restaurant=rest,
                                rid=restaurant_id,
                                items=itemlist,
-                               categories=category)
+                               categories=category,
+                               update=update)
     else:                           #if account
         session['restaurant_id'] = restaurant_id
         rest = Restaurant.query.get(restaurant_id)
@@ -185,8 +186,9 @@ def restaurant(restaurant_id):
         return render_template('menu.html',
                                restaurant=rest,
                                rid=restaurant_id,
-                               items=newlist)
-
+                               items=newlist,
+                               categories=category,
+                               update=update)
 
 @app.route('/user')
 def user():
@@ -213,6 +215,8 @@ def get_suggetions():
 def user_order(order_id):
     print(order_id)
     order = Orders.query.get(order_id)
+    session['order_id'] = order_id
+    print(session['order_id'])
     return render_template('view_order.html',
                            order=order)
 

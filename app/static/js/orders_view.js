@@ -5,3 +5,9 @@ $(function() {
         $.getJSON($SCRIPT_ROOT + '/del_orderItem', data);
     });
 });
+
+$(function() {
+    $('.update-entry').on('click', function(event) {
+        window.history.back();
+    });
+});

@@ -2,7 +2,7 @@
  * Created by Han on 12/2/15.
  */
 $(function () {
-    var eamil;
+    var email;
     $('#email_field').on('change', function() {
         var temp = $('#email_field').val()
         if (temp !== undefined) {
@@ -12,10 +12,10 @@ $(function () {
 
     $('#login-button').bind('click', function(event) {
         event.preventDefault();
-        var email = {
+        var data = {
             email : $('#email_field').val()
         }
-        $.getJSON($SCRIPT_ROOT + '/logged_in', email, function() {
+        $.getJSON($SCRIPT_ROOT + '/logged_in', data, function() {
             console.log("submitted");
         })
     });
