@@ -8,7 +8,7 @@ from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
 def index():
     user = {'nickname': 'Saurabh Sinha'}  # fake user, 411 prof.
     restaurant = {'name': 'MIGA'}
-    menu = MenuItem.query.all()
+    menu = MenuItem.query.filter_by(restaurant_id=2)
     return render_template('index.html',
                            title='Home',
                            user=user,
