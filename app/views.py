@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, abort, redirect, url_for
+from flask import render_template, request, jsonify, abort, redirect, url_for, session
 import datetime
 from app import app, db
 from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
@@ -19,22 +19,35 @@ def index():
 def login():
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    session['username'] = None
+    session['uid'] = None
+    session['dietary'] = None
+    return index()
+
 @app.route('/logged_in')
 def logged_in():
     id = request.args.get('id')
+    session['uid'] = id
+    session['username'] = request.args.get('name')
+    session['udietary'] = request.args.get('dietary')
     user = Customers.query.get(id)
     if user is None:
-        return redirect(url_for('dietary', id=id, name=request.args.get('name'), dietary=0))
+        return redirect(url_for('dietary'))
     else:
-        return redirect(url_for('restaurants', id=id))
+        return redirect(url_for('restaurants'))
 
 @app.route('/dietary')
 def dietary():
-    return render_template('user.html', id=request.args.get('id'), name=request.args.get('name'), dietary=request.args.get('dietary'))
+    id = session['uid']
+    username = session['username']
+    udietary = session['udietary']
+    return render_template('user.html', id=id, name=username, dietary=udietary)
 
 @app.route('/submit_dietary')
 def submit_dietary():
-    return restaurants(user)
+    return restaurants()
 
 @app.route('/restaurants')
 def restaurants():
@@ -136,3 +149,5 @@ def get_suggetions():
 
     return_item = {'items': return_list}
     return jsonify(return_item)
+
+app.secret_key = "wM'P\xf2H\x99Vc\x1d-\xc0\x1a\x9c!\xcb\xc94\x8f\xac\x01*\x8c\x89"
