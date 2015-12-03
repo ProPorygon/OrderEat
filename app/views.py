@@ -112,16 +112,22 @@ def update_order():
     # add items like the other one adds items to a new order
 
 @app.route('/dashboard')
-def dashboard():
-    restaurant = request.args.get('restaurant')
-    common_items = MenuItem.query.order_by(MenuItem.frequency.desc())
-        #all()
-    #filter_by(name=restaurant).first()
-      #.filter_by(restaurant=Restaurant.query.filter_by(name=restaurant).first()).order_by(MenuItem.frequency.desc())
-    # popular_items = db.query(db.cast(MenuItem.rating_sum/MenuItem.frequency, db.Integer))
-    # popular_items = popular_items.order_by(popular_items.desc())  #Should probably do something like a view or as here
+def dash():
+    rlist = Restaurant.query.order_by(Restaurant.name)
+    menu = MenuItem.query.all()
+    return render_template('merchSide.html',
+                           rlist=rlist,
+                           menu=menu)
+
+@app.route('/dashboard/<restaurant_id>')
+def dashboard(restaurant_id):
+    session['restaurant_id'] = restaurant_id
+    rest = Restaurant.query.get(restaurant_id)
+    items = rest.items.order_by(MenuItem.frequency.desc())
     return render_template('dashboard.html',
-                           common_items=common_items)
+                           restaurant=rest,
+                           rid=restaurant_id,
+                           common_items=items)
 
 @app.route('/menu')
 def menu():
