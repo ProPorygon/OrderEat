@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Login - OrderEat</title>
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="/static/css/style.css">
+        <script src="/static/js/jquery-1.11.3.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/css/semantic.min.css">
+        <script src="/static/js/semantic.min.js"></script>
+        <script src="/static/js/userauth.js"></script>
+        <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+        <script>
+            //gapi.auth2.init();
+        </script>
+        <meta name="google-signin-client_id" content="629863120447-trts4hd8oc6qeeff9teo9mv8ealhm248.apps.googleusercontent.com">
+    </head>
+    <body>
+        <div class="container">
+
+            <div id="heading">
+            <h1 style = "text-align: center;" >Please give us your eamil so we can identify you</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h4 style = "text-align: center;">What's your eamil address?</h4>
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+                            <input type="text" id="email_field" class="form-control input-lg" placeholder="Enter Email"/>
+                            <button type="button" class="btn btn-primary" id="login-button" onclick="window.location = 'http://127.0.0.1:5000/dietary'">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    </body>
+</html>

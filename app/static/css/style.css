@@ -1,14 +1,14 @@
-body {background-image: url(R1.png);
-      background-size: cover;
-      background-repeat: no-repeat;
-}
-h1   {
-    color:blue;
-}
-p    {
-    color:green;
-}
-.container{
-    background-color: white;
-    opacity: 0.7;
-}
+/*.state-icon {*/
+    /*left: -5px;*/
+/*}*/
+/*.list-group-item-primary {*/
+    /*color: rgb(255, 255, 255);*/
+    /*background-color: rgb(66, 139, 202);*/
+/*}*/
+
+
+/*/!*ul .list-group {*!/*/
+    /*/!*margin: auto;*!/*/
+    /*/!*padding: auto;*!/*/
+    /*/!*color: red;*!/*/
+/*/!*}*!/*/
