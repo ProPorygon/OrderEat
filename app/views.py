@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, abort
+from flask import render_template, request, jsonify, abort, redirect, url_for, session
 import datetime
 from app import app, db
 from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
@@ -13,11 +13,49 @@ def index():
                            rlist=rlist,
                            menu=menu)
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/logged_in')
+def logged_in():
+    email = request.args.get('email')
+    user = Customers.query.get(email)
+    if user is None:
+        session['uemail'] = email
+        return redirect(url_for('dietary'))
+    else:
+        session['username'] = user.username
+        session['uemail'] = user.id
+        session['udietary'] = user.dietary
+        return redirect(url_for('index'))
+
+@app.route('/logout')
+def logout():
+    session['username'] = None
+    session['uemail'] = None
+    session['dietary'] = None
+    return index()
+
+@app.route('/dietary')
+def dietary():
+    return render_template('user.html')
+
+@app.route('/submit_dietary')
+def submit_dietary():
+    user = Customers()
+    user.name = request.args.get('name')
+    user.dietary = request.args.get('dietary')
+    user.email = session['uemail']
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('index'))
+
 @app.route('/submit_order')
 def submit_order():
     order = Orders()
     order.time = datetime.datetime.now()
-    restaurant_name = request.args.get('restaurant') #TODO add restaurant argument in submitted order
+    restaurant_id = session['restaurant_id']
     for item in request.args.getlist('array[]'):
         menuItem = MenuItem.query.filter_by(name=item).first()
         freq = menuItem.frequency
@@ -35,10 +73,11 @@ def submit_order():
         print(menuItem.name)
         order.items.append(menuItem)
     db.session.add(order)
-    restaurant = Restaurant.query.filter_by(name='MIGA').first()
+    restaurant = Restaurant.query.get(restaurant_id)
     restaurant.orders.append(order)
     db.session.commit()
-    return index()
+    return jsonify({'success':True}), 200, {'ContentType':'application/json'}
+
 
 @app.route('/view_orders')
 def view_orders():
@@ -93,8 +132,9 @@ def menu():
                            restaurant=restaurant,
                            menu=menu)
 
-@app.route('/<restaurant_id>')
+@app.route('/restaurant/<restaurant_id>')
 def restaurant(restaurant_id):
+    session['restaurant_id'] = restaurant_id
     rest = Restaurant.query.get(restaurant_id)
     itemlist = rest.items
     return render_template('menu.html',
@@ -128,3 +168,5 @@ def user_order(order_id):
     order = Orders.query.get(order_id)
     return render_template('view_order.html',
                            order=order)
+
+app.secret_key = "wM'P\xf2H\x99Vc\x1d-\xc0\x1a\x9c!\xcb\xc94\x8f\xac\x01*\x8c\x89"
