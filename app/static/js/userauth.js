@@ -8,13 +8,16 @@ $(function () {
         if (temp !== undefined) {
             email = temp;
         }
+        console.log(email);
     });
 
     $('#login-button').bind('click', function(event) {
         event.preventDefault();
         var data = {
             email : email
-        }
+        };
+        console.log(email);
+        console.log(data);
         $.getJSON($SCRIPT_ROOT + '/logged_in', data, function() {
             console.log("submitted");
         })

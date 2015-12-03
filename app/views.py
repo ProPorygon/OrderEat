@@ -163,8 +163,7 @@ def restaurant(restaurant_id):
                                restaurant=rest,
                                rid=restaurant_id,
                                items=itemlist,
-                               categories=category,
-                               update=update)
+                               categories=category)
     else:                           #if account
         session['restaurant_id'] = restaurant_id
         rest = Restaurant.query.get(restaurant_id)
@@ -183,12 +182,14 @@ def restaurant(restaurant_id):
                                     ~and_(MenuItem.dietaryRestriction % 2 == 1, cust.dietary % 2 == 1)) \
                             ) \
                     .order_by(MenuItem.category.desc())
+        category = {}
+        for item in newlist:
+            category[item.category] = 1
         return render_template('menu.html',
                                restaurant=rest,
                                rid=restaurant_id,
                                items=newlist,
-                               categories=category,
-                               update=update)
+                               categories=category)
 
 @app.route('/user')
 def user():
