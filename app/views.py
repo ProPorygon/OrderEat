@@ -6,13 +6,11 @@ from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'nickname': 'Saurabh Sinha'}  # fake user, 411 prof.
-    restaurant = {'name': 'MIGA'}
+    rlist = Restaurant.query.all()
     menu = MenuItem.query.all()
     return render_template('index.html',
                            title='Home',
-                           user=user,
-                           restaurant=restaurant,
+                           rlist=rlist,
                            menu=menu)
 
 @app.route('/submit_order')
@@ -85,6 +83,17 @@ def dashboard():
     # popular_items = popular_items.order_by(popular_items.desc())  #Should probably do something like a view or as here
     return render_template('dashboard.html',
                            common_items=common_items)
+
+@app.route('/menu')
+def menu():
+    user = {'nickname': 'Saurabh Sinha'}  # fake user, 411 prof.
+    restaurant = {'name': 'MIGA'}
+    menu = MenuItem.query.all()
+    return render_template('menu.html',
+                           title='Home',
+                           user=user,
+                           restaurant=restaurant,
+                           menu=menu)
 
 @app.route('/<restaurant_id>')
 def restaurant(restaurant_id):
