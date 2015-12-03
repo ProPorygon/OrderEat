@@ -1,3 +1,5 @@
+{ "menu": {
+	"menuItems":[
 {"name":"Beer-Battered Asparagus","description":"hefeweizen-battered asparagus, maple chipotle sauce, grilled lemon","category":"Appetizers","dietaryRestriction":0,"price":8.95,"restaurant":"Destihl"},
 {"name":"Potato Croquettes","description":"hand-breaded potato cakes, chimichurri sauce, maple chipotle sauce, asiago","category":"Appetizers","dietaryRestriction":0,"price":6.25,"restaurant":"Destihl"},
 {"name":"Thai-Style Chicken Wings","description":"beer-brined chicken wings, spicy thai sauce, sweet chili vinaigrette, chili lime peanuts, cilantro","category":"Appetizers","dietaryRestriction":32,"price":8.25,"restaurant":"Destihl"},
@@ -5541,4 +5543,7 @@
 {"name":"Teriyaki Chicken Sandwich","description":"Teriyaki marinated chicken, bean sprouts, mozzarella cheese, baby spinach, beet and whole grain mustard","category":"Sandwiches","dietaryRestriction":0,"price":4.95,"restaurant":"Caffe Bene on Green"},
 {"name":"Spicy Chicken Sandwich","description":"Korean-style marinated chicken, whole grain mustard, bean sprouts, mozzarella cheese and baby spinach","category":"Sandwiches","dietaryRestriction":0,"price":4.95,"restaurant":"Caffe Bene on Green"},
 {"name":"Portobello Sandwich","description":"Portobello mushroom, onion, baby spinach, whole grain mustard and mozzarella cheese","category":"Sandwiches","dietaryRestriction":0,"price":4.95,"restaurant":"Caffe Bene on Green"},
-{"name":"Asian Shrimp Sandwich","description":"Marinated shrimp, baby spinach, bean sprouts, whole grain mustard and mozzarella cheese","category":"Sandwiches","dietaryRestriction":0,"price":4.95,"restaurant":"Caffe Bene on Green"},
+{"name":"Asian Shrimp Sandwich","description":"Marinated shrimp, baby spinach, bean sprouts, whole grain mustard and mozzarella cheese","category":"Sandwiches","dietaryRestriction":0,"price":4.95,"restaurant":"Caffe Bene on Green"}
+]
+}
+}
