@@ -1,6 +1,6 @@
 function addOrder(variable) {
     var totalspan = d3.select("#totalprice");
-    var totalprice = parseFloat(totalspan[0][0].innerText.split("$")[1]);
+    totalprice = parseFloat(totalspan[0][0].innerText.split("$")[1]);
     var item = variable[0].innerText.trim();
     var price = parseFloat(item.split("$")[1]);
     totalprice += price;
@@ -9,6 +9,10 @@ function addOrder(variable) {
     replaced = replaced.split("'").join('');
     replaced = replaced.split("*").join('');
     replaced = replaced.split("&").join('');
+    replaced = replaced.split("(").join('');
+    replaced = replaced.split(")").join('');
+    replaced = replaced.split('"').join('');
+    replaced = replaced.split("/").join('')
     var list = d3.select("#selected");
     //console.log(list);
     var appended = list.append("li")
@@ -36,6 +40,10 @@ function rmOrder(variable) {
     replaced = replaced.split("'").join('');
     replaced = replaced.split("*").join('');
     replaced = replaced.split("&").join('');
+    replaced = replaced.split("(").join('');
+    replaced = replaced.split(")").join('');
+    replaced = replaced.split('"').join('');
+    replaced = replaced.split("/").join('')
     $("#" + replaced).fadeOut(250, function() {
         d3.select("#" + replaced).remove();
     });
