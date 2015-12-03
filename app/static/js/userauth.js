@@ -23,9 +23,9 @@ $(function () {
     $('#submit_dietary').bind('click', function(event) {
         event.preventDefault();
         var dietary = 0;
-        if ($('#vegetarian').hasClass("active")) {dietary += 1024;}
-        if ($('#vegan').hasClass("active")) {dietary += 512;}
-        if ($('#gluten_free').hasClass("active")) {dietary += 256;}
+        //if ($('#vegetarian').hasClass("active")) {dietary += 1024;}
+        //if ($('#vegan').hasClass("active")) {dietary += 512;}
+        //if ($('#gluten_free').hasClass("active")) {dietary += 256;}
         if ($('#eggs').hasClass("active")) {dietary += 128;}
         if ($('#milk').hasClass("active")) {dietary += 64;}
         if ($('#peanuts').hasClass("active")) {dietary += 32;}

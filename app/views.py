@@ -55,7 +55,9 @@ def submit_dietary():
 @app.route('/submit_order')
 def submit_order():
     order = Orders()
-    order.time = datetime.datetime.now()
+    time = datetime.datetime.now()
+    order.time = time
+    session['order_time'] = time
     restaurant_id = session['restaurant_id']
     for item in request.args.getlist('array[]'):
         menuItem = MenuItem.query.filter_by(name=item).first()
@@ -77,6 +79,9 @@ def submit_order():
     restaurant = Restaurant.query.get(restaurant_id)
     restaurant.orders.append(order)
     db.session.commit()
+    order_id = Orders.query.filter_by(time=time).first().id
+    session['order_id'] = order_id
+    print(session['order_id'])
     return jsonify({'success':True}), 200, {'ContentType':'application/json'}
 
 
@@ -140,14 +145,20 @@ def restaurant(restaurant_id):
     except:                         #using without accont
         session['restaurant_id'] = restaurant_id
         rest = Restaurant.query.get(restaurant_id)
-        itemlist = rest.items
+        itemlist = rest.items.order_by(MenuItem.category.desc())
+        category = {}
+        for item in itemlist:
+            category[item.category] = 1
         return render_template('menu.html',
                                restaurant=rest,
                                rid=restaurant_id,
-                               items=itemlist)
+                               items=itemlist,
+                               categories=category)
     else:                           #if account
+        session['restaurant_id'] = restaurant_id
+        rest = Restaurant.query.get(restaurant_id)
         cust = Customers.query.get(email)
-        newlist = db.session.query(MenuItem.name, MenuItem.price) \
+        newlist = db.session.query(MenuItem.name, MenuItem.price, MenuItem.description, MenuItem.category, MenuItem.frequency, MenuItem.rating_sum) \
                     .filter(MenuItem.restaurant_id == restaurant_id) \
                     .filter( \
                                 or_( \
@@ -160,39 +171,19 @@ def restaurant(restaurant_id):
                                     ~and_((MenuItem.dietaryRestriction % 4 >= 2), (cust.dietary % 4 >= 2)), \
                                     ~and_(MenuItem.dietaryRestriction % 2 == 1, cust.dietary % 2 == 1)) \
                             ) \
-
-                    # .filter( \
-                    #             or_( \
-                    #                 and_(cust.dietary / 1024 == 0, (MenuItem.dietaryRestriction / 1024 == cust.dietary / 1024)), \
-                    #                 and_(cust.dietary % 1024 < 512, (MenuItem.dietaryRestriction % 1024 >= 512) == (cust.dietary % 1024 >= 512)), \
-                    #                 and_(cust.dietary % 512 < 256, (MenuItem.dietaryRestriction % 512 >= 256) == (cust.dietary % 512 >= 256)) \
-                    #                 ) \
-                    #         ) \
-
-                    # .filter(MenuItem.dietaryRestriction / 512 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 256 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 128 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 64 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 32 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 16 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 8 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 4 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 2 == 1) \
-                    # .filter(MenuItem.dietaryRestriction / 1 == 1) \
-
-                    #.filter(MenuItem.dietaryRestriction.op('&')(1024) == 1)
-#                    .filter(MenuItem.dietaryRestriction.op('&')(1024) == 1024) \
-#                    .filter(MenuItem.dietaryRestriction.op('&')(2) != Customers.dietaryRestriction.op('&')(2)) \
- #                   .filter(Restaurant.dietaryRestriction.op('&')(4) != Customers.dietaryRestriction.op('&')(4)) \
-  #                  .filter(Restaurant.dietaryRestriction.op('&')(8) != Customers.dietaryRestriction.op('&')(8)) \
-   #                 .filter(Restaurant.dietaryRestriction.op('&')(16) != Customers.dietaryRestriction.op('&')(16)) \
-    #                .filter(Restaurant.dietaryRestriction.op('&')(32) != Customers.dietaryRestriction.op('&')(32)) \
-        for menu in newlist:
-            print(menu.name)
+                    .order_by(MenuItem.category.desc())
         return render_template('menu.html',
                                restaurant=rest,
                                rid=restaurant_id,
                                items=newlist)
+
+@app.route('/restaurant/<restaurant_id>/orders')
+def restaurant_orders(restaurant_id):
+    orders = Orders.query.filter_by(restaurant_id=restaurant_id)
+    return render_template('orders.html',
+                           orders=orders,
+                           restaurant=restaurant)
+
 
 @app.route('/user')
 def user():
@@ -215,9 +206,8 @@ def get_suggetions():
     return_item = {'items': return_list}
     return jsonify(return_item)
 
-@app.route('/order/<order_id>')
-def user_order(order_id):
-    print(order_id)
+@app.route('/order')
+def user_order():
     order = Orders.query.get(order_id)
     return render_template('view_order.html',
                            order=order)

@@ -15,7 +15,11 @@
                     $.getJSON($SCRIPT_ROOT + '/get_suggestions', {
                         item_name: $(this).text().split('$')[0].trim()
                     }, function(data) {
-                        $('#suggestion-area').text(data.items);
+                        var txt = data.items[0];
+                        for (var i = 1; i < data.items.length; ++i) {
+                            txt += ", " + data.items[i];
+                        }
+                        $('#suggestion-area').text(txt);
                     });
                 });
             });
@@ -49,8 +53,19 @@
                         </div>
                     </div>
                     <ul class="list-group checked-list-box">
-                        {% for item in items %}
-                        <li class="list-group-item returnable"> {{ item.name }}<span style="float:right;">${{ item.price }}</span></li>
+                        {% for category in categories %}
+                            <h2>{{ category }}</h2>
+                            {% for item in items %}
+                                {% if item.category == category %}
+                                    <li class="list-group-item returnable"> {{ item.name }}<span style="float:right;">$
+                                        {% if item.price == None %}
+                                        0 (Not Shown)
+                                        {% else %}
+                                        {{ item.price }}
+                                        {% endif %}
+                                    </span></li>
+                                {% endif %}
+                            {% endfor %}
                         {% endfor %}
                     </ul>
                 </div>
@@ -79,7 +94,7 @@
 
         <script>
             function orderView(){
-                window.location = 'http://127.0.0.1:5000/view_orders';
+                window.location = 'http://127.0.0.1:5000/order';
             }
 
         </script>

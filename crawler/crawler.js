@@ -64,6 +64,9 @@ function crawl(i) {
 						var menuitem = categoryitems.eq(j).children().eq(k).children();
 						var menuprice = extractPrice(trimText(menuitem.eq(0).text()));
 						menuprice = parseFloat(menuprice);
+						if (menuprice === undefined) {
+							menuprice = 0;
+						}
 						var menudesc = trimText(menuitem.eq(1).text());
 						var menuname = categoryitems.eq(j).children().eq(k).text();
 						menuname = trimText(menuname).split(" $" + menuprice)[0];
