@@ -14,17 +14,14 @@
             <div style = "text-align: center;" id="heading">
                 <h1> Welcome to OrderEat!</h1>
                 <h2>Please select a Restaurant:</h2>
-
                 <div class="col-md-6 col-md-offset-3">
                     <select onChange="window.location.href='restaurant/' + this.value"  class="ui dropdown">
                         {% for item in rlist %}
                             <option value={{ item.id }} class="list-group-item">{{ item.name }}</option>
                         {% endfor %}
                     </select>
-                <p>
-                    <button type="button" class="btn btn-default btn-sm">Sign In</button>
-                    or
-                    <button type="button" class="btn btn-default btn-sm">Sign Up</button>
+                <p></p>
+                    <button type="button" class="btn btn-default btn-sm" onclick="login()">Sign In/Up To Save Your Dietary Restrictions</button>
                 </div>
 
             </div>
@@ -32,7 +29,10 @@
         <script src="/static/js/semantic.min.js"></script>
         <script>
             function orderView(){
-                window.location = 'http://127.0.0.1:5000/view_orders';
+                window.location.href = '/view_orders/';
+            }
+            function login(){
+                window.location.href = '/login';
             }
         </script>
 
