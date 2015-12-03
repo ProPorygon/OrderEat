@@ -6,7 +6,7 @@ from app.models import MenuItem, Orders, Restaurant, Suggestions, Customers
 @app.route('/')
 @app.route('/index')
 def index():
-    rlist = Restaurant.query.all()
+    rlist = Restaurant.query.order_by(Restaurant.name)
     menu = MenuItem.query.all()
     return render_template('index.html',
                            title='Home',
@@ -97,9 +97,12 @@ def menu():
 
 @app.route('/<restaurant_id>')
 def restaurant(restaurant_id):
-    restaurant = Restaurant.query.get(restaurant_id)
-    return restaurant;
-#    return render_template('restaurant.html',restaurant=restaurant)
+    rest = Restaurant.query.get(restaurant_id)
+    itemlist = rest.items
+    return render_template('menu.html',
+                           restaurant=rest,
+                           rid=restaurant_id,
+                           items=itemlist)
 
 @app.route('/user')
 def user():

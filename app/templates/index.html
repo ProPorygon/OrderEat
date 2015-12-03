@@ -15,12 +15,18 @@
             <div style = "text-align: center;" id="heading">
             <h1> Welcome to OrderEat!</h1>
                 <h2>Please select a Restaurant:</h2>
-             <div class="col-md-6 col-md-offset-3">
-            <ul class="list-group">
+
+        <div class="col-md-6 col-md-offset-3">
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" id="searchbar" class="form-control input-lg" placeholder="Enter Keyword"/>
+                </div>
+            </div>
+            <select onChange="window.location.href=this.value"  class="ui dropdown">
                 {% for item in rlist %}
-                    <li class="list-group-item">{{ item.name }}</li>
+                    <option value={{ item.id }} class="list-group-item">{{ item.name }}</option>
                 {% endfor %}
-            </ul>
+            </select>
         </div>
 {#                <select class="ui dropdown">#}
 {#                  <option value="">Restaurant</option>#}
@@ -29,6 +35,7 @@
 {#                  <option value="0">Bacaro</option>#}
 {#                  <option value="0">Desthil</option>#}
 {##}
+{#                </select>#}
 {#                </select>#}
 
         </div>
@@ -73,7 +80,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
         <script src="/static/js/scripts.js"></script>
         <script src="/static/js/order.js"></script>
-        <script src="/static/js/search.js"></script>
+        <script src="/static/js/rsearch.js"></script>
 
         <script>
             function orderView(){

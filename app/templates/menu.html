@@ -14,7 +14,7 @@
         <div class="container">
 
             <div id="heading">
-            <h1 style = "text-align: center;" > Hello, {{ user.nickname }}! Welcome to OrderEat
+            <h1 style = "text-align: center;" > Hello, Welcome to OrderEat
 {#                <select class="ui dropdown">#}
 {#                  <option value="">OrderEat</option>#}
 {#                  <option value="0">Miga</option>#}
@@ -37,8 +37,8 @@
                         </div>
                     </div>
                     <ul class="list-group checked-list-box">
-                        {% for item in menu %}
-                        <li class="list-group-item">    {{ item.name }}<span style="float:right;">${{ item.price }}</span></li>
+                        {% for item in items %}
+                        <li class="list-group-item"> {{ item.name }}<span style="float:right;">${{ item.price }}</span></li>
                         {% endfor %}
                     </ul>
                 </div>
